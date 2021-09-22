@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/honey-orders.iml" filepath="$PROJECT_DIR$/honey-orders.iml" />
+      <module fileurl="file://$PROJECT_DIR$/honey-orders-api/honey-orders-api.iml" filepath="$PROJECT_DIR$/honey-orders-api/honey-orders-api.iml" />
+      <module fileurl="file://$PROJECT_DIR$/honey-orders-service/honey-orders-service.iml" filepath="$PROJECT_DIR$/honey-orders-service/honey-orders-service.iml" />
+    </modules>
+  </component>
+</project>

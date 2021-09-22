@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+
+<model-hints>
+	<model name="com.serious.model.Honey">
+		<field name="id" type="long" />
+		<field name="type" type="String" />
+		<field name="price" type="int" />
+		<field name="stock" type="boolean" />
+	</model>
+	<model name="com.serious.model.OrderInfo">
+		<field name="id" type="long" />
+		<field name="type" type="String" />
+		<field name="amount" type="int" />
+	</model>
+	<model name="com.serious.model.Orders">
+		<field name="id" type="long" />
+		<field name="dateOrder" type="Date" />
+		<field name="customer" type="String" />
+		<field name="orderinfo" type="long" />
+		<field name="status" type="int" />
+	</model>
+</model-hints>
