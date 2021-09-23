@@ -6,7 +6,6 @@ import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 
 import javax.portlet.Portlet;
 
-import com.serious.service.persistence.HoneyUtil;
 import org.osgi.service.component.annotations.Component;
 
 /**

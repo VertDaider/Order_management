@@ -1,2 +1,7 @@
-.honey-order-web {
+.lfr-form-row-exist {
+  padding-bottom : 0!important;
+  border-bottom: 0!important;
+}
+.lfr-form-row-exist > .lfr-autorow-controls {
+  display: none!important;
 }
