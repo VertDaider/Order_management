@@ -32,12 +32,17 @@
             <% } %>
         </liferay-ui:search-container-column-text>
         <liferay-ui:search-container-column-text>
-            <liferay-ui:icon-menu direction="left-side" icon=""	markupView="lexicon" message="" showWhenSingleIcon="true">
+            <liferay-ui:icon-menu direction="left-side" icon="list"	markupView="lexicon" message="" showWhenSingleIcon="true">
                 <portlet:actionURL name="editStockHoney" var="editStockURL">
                     <portlet:param name="mvcPath" value="/kind/view.jsp"/>
                     <portlet:param name="honeyId" value="<%=String.valueOf(honey.getId())%>"/>
                 </portlet:actionURL>
                 <liferay-ui:icon icon="redo" markupView="lexicon" message="action.changestatus" url="${editStockURL}"/>
+                <portlet:actionURL name="deleteStockHoney" var="delStockURL">
+                    <portlet:param name="mvcPath" value="/kind/view.jsp"/>
+                    <portlet:param name="honeyId" value="<%=String.valueOf(honey.getId())%>"/>
+                </portlet:actionURL>
+                <liferay-ui:icon icon="times" markupView="lexicon" message="action.delete" url="${delStockURL}"/>
             </liferay-ui:icon-menu>
         </liferay-ui:search-container-column-text>
     </liferay-ui:search-container-row>

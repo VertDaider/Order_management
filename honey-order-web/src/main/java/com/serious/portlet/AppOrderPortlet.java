@@ -58,4 +58,9 @@ public class AppOrderPortlet extends MVCPortlet {
 		honey.setType(kind);
 		HoneyLocalServiceUtil.updateHoney(honey);
 	}
+
+	public void deleteStockHoney(ActionRequest request, ActionResponse response) throws PortalException {
+		long honeyId = ParamUtil.getLong(request, "honeyId");
+		HoneyLocalServiceUtil.deleteHoney(honeyId);
+	}
 }
