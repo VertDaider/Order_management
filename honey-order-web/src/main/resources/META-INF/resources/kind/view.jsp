@@ -38,11 +38,16 @@
                     <portlet:param name="honeyId" value="<%=String.valueOf(honey.getId())%>"/>
                 </portlet:actionURL>
                 <liferay-ui:icon icon="redo" markupView="lexicon" message="action.changestatus" url="${editStockURL}"/>
+                <portlet:renderURL var="editKindURL">
+                    <portlet:param name="mvcPath" value="/kind/edit.jsp"/>
+                    <portlet:param name="honeyId" value="<%=String.valueOf(honey.getId())%>"/>
+                </portlet:renderURL>
+                <liferay-ui:icon icon="pencil" markupView="lexicon" message="action.edit" url="${editKindURL}"/>
                 <portlet:actionURL name="deleteStockHoney" var="delStockURL">
                     <portlet:param name="mvcPath" value="/kind/view.jsp"/>
                     <portlet:param name="honeyId" value="<%=String.valueOf(honey.getId())%>"/>
                 </portlet:actionURL>
-                <liferay-ui:icon icon="times" markupView="lexicon" message="action.delete" url="${delStockURL}"/>
+                <liferay-ui:icon-delete showIcon="true" message="action.delete" url="${delStockURL}" confirmation = "action.confirm"/>
             </liferay-ui:icon-menu>
         </liferay-ui:search-container-column-text>
     </liferay-ui:search-container-row>
