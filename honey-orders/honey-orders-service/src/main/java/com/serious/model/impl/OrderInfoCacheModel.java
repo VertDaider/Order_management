@@ -78,14 +78,7 @@ public class OrderInfoCacheModel
 		OrderInfoImpl orderInfoImpl = new OrderInfoImpl();
 
 		orderInfoImpl.setId(id);
-
-		if (type == null) {
-			orderInfoImpl.setType("");
-		}
-		else {
-			orderInfoImpl.setType(type);
-		}
-
+		orderInfoImpl.setType(type);
 		orderInfoImpl.setAmount(amount);
 
 		orderInfoImpl.resetOriginalValues();
@@ -96,7 +89,8 @@ public class OrderInfoCacheModel
 	@Override
 	public void readExternal(ObjectInput objectInput) throws IOException {
 		id = objectInput.readLong();
-		type = objectInput.readUTF();
+
+		type = objectInput.readLong();
 
 		amount = objectInput.readInt();
 	}
@@ -105,18 +99,13 @@ public class OrderInfoCacheModel
 	public void writeExternal(ObjectOutput objectOutput) throws IOException {
 		objectOutput.writeLong(id);
 
-		if (type == null) {
-			objectOutput.writeUTF("");
-		}
-		else {
-			objectOutput.writeUTF(type);
-		}
+		objectOutput.writeLong(type);
 
 		objectOutput.writeInt(amount);
 	}
 
 	public long id;
-	public String type;
+	public long type;
 	public int amount;
 
 }

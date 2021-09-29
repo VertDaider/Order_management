@@ -56,7 +56,7 @@ public class OrderInfoWrapper
 			setId(id);
 		}
 
-		String type = (String)attributes.get("type");
+		Long type = (Long)attributes.get("type");
 
 		if (type != null) {
 			setType(type);
@@ -105,7 +105,7 @@ public class OrderInfoWrapper
 	 * @return the type of this order info
 	 */
 	@Override
-	public String getType() {
+	public long getType() {
 		return model.getType();
 	}
 
@@ -150,7 +150,7 @@ public class OrderInfoWrapper
 	 * @param type the type of this order info
 	 */
 	@Override
-	public void setType(String type) {
+	public void setType(long type) {
 		model.setType(type);
 	}
 

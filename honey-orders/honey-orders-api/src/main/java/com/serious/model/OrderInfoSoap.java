@@ -96,11 +96,11 @@ public class OrderInfoSoap implements Serializable {
 		_id = id;
 	}
 
-	public String getType() {
+	public long getType() {
 		return _type;
 	}
 
-	public void setType(String type) {
+	public void setType(long type) {
 		_type = type;
 	}
 
@@ -113,7 +113,7 @@ public class OrderInfoSoap implements Serializable {
 	}
 
 	private long _id;
-	private String _type;
+	private long _type;
 	private int _amount;
 
 }

@@ -14,7 +14,6 @@
 
 package com.serious.model;
 
-import com.liferay.portal.kernel.bean.AutoEscape;
 import com.liferay.portal.kernel.model.BaseModel;
 
 import org.osgi.annotation.versioning.ProviderType;
@@ -72,15 +71,14 @@ public interface OrderInfoModel extends BaseModel<OrderInfo> {
 	 *
 	 * @return the type of this order info
 	 */
-	@AutoEscape
-	public String getType();
+	public long getType();
 
 	/**
 	 * Sets the type of this order info.
 	 *
 	 * @param type the type of this order info
 	 */
-	public void setType(String type);
+	public void setType(long type);
 
 	/**
 	 * Returns the amount of this order info.

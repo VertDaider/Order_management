@@ -64,7 +64,7 @@ public class OrderInfoModelImpl
 	public static final String TABLE_NAME = "my_orders_OrderInfo";
 
 	public static final Object[][] TABLE_COLUMNS = {
-		{"id_", Types.BIGINT}, {"type_", Types.VARCHAR},
+		{"id_", Types.BIGINT}, {"type_", Types.BIGINT},
 		{"amount", Types.INTEGER}
 	};
 
@@ -73,12 +73,12 @@ public class OrderInfoModelImpl
 
 	static {
 		TABLE_COLUMNS_MAP.put("id_", Types.BIGINT);
-		TABLE_COLUMNS_MAP.put("type_", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("type_", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("amount", Types.INTEGER);
 	}
 
 	public static final String TABLE_SQL_CREATE =
-		"create table my_orders_OrderInfo (id_ LONG not null primary key,type_ VARCHAR(75) null,amount INTEGER)";
+		"create table my_orders_OrderInfo (id_ LONG not null primary key,type_ LONG,amount INTEGER)";
 
 	public static final String TABLE_SQL_DROP =
 		"drop table my_orders_OrderInfo";
@@ -243,7 +243,7 @@ public class OrderInfoModelImpl
 			"id", (BiConsumer<OrderInfo, Long>)OrderInfo::setId);
 		attributeGetterFunctions.put("type", OrderInfo::getType);
 		attributeSetterBiConsumers.put(
-			"type", (BiConsumer<OrderInfo, String>)OrderInfo::setType);
+			"type", (BiConsumer<OrderInfo, Long>)OrderInfo::setType);
 		attributeGetterFunctions.put("amount", OrderInfo::getAmount);
 		attributeSetterBiConsumers.put(
 			"amount", (BiConsumer<OrderInfo, Integer>)OrderInfo::setAmount);
@@ -269,17 +269,12 @@ public class OrderInfoModelImpl
 	}
 
 	@Override
-	public String getType() {
-		if (_type == null) {
-			return "";
-		}
-		else {
-			return _type;
-		}
+	public long getType() {
+		return _type;
 	}
 
 	@Override
-	public void setType(String type) {
+	public void setType(long type) {
 		if (_columnOriginalValues == Collections.EMPTY_MAP) {
 			_setColumnOriginalValues();
 		}
@@ -441,12 +436,6 @@ public class OrderInfoModelImpl
 
 		orderInfoCacheModel.type = getType();
 
-		String type = orderInfoCacheModel.type;
-
-		if ((type != null) && (type.length() == 0)) {
-			orderInfoCacheModel.type = null;
-		}
-
 		orderInfoCacheModel.amount = getAmount();
 
 		return orderInfoCacheModel;
@@ -523,7 +512,7 @@ public class OrderInfoModelImpl
 	}
 
 	private long _id;
-	private String _type;
+	private long _type;
 	private int _amount;
 
 	public <T> T getColumnValue(String columnName) {

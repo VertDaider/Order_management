@@ -122,7 +122,7 @@ public class OrderInfoPersistenceTest {
 
 		OrderInfo newOrderInfo = _persistence.create(pk);
 
-		newOrderInfo.setType(RandomTestUtil.randomString());
+		newOrderInfo.setType(RandomTestUtil.nextLong());
 
 		newOrderInfo.setAmount(RandomTestUtil.nextInt());
 
@@ -375,7 +375,7 @@ public class OrderInfoPersistenceTest {
 
 		OrderInfo orderInfo = _persistence.create(pk);
 
-		orderInfo.setType(RandomTestUtil.randomString());
+		orderInfo.setType(RandomTestUtil.nextLong());
 
 		orderInfo.setAmount(RandomTestUtil.nextInt());
 

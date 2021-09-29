@@ -9,7 +9,7 @@
 	</model>
 	<model name="com.serious.model.OrderInfo">
 		<field name="id" type="long" />
-		<field name="type" type="String" />
+		<field name="type" type="long" />
 		<field name="amount" type="int" />
 	</model>
 	<model name="com.serious.model.Orders">

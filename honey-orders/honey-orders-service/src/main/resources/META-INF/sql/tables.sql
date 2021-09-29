@@ -7,7 +7,7 @@ create table my_orders_Honey (
 
 create table my_orders_OrderInfo (
 	id_ LONG not null primary key,
-	type_ VARCHAR(75) null,
+	type_ LONG,
 	amount INTEGER
 );
 
