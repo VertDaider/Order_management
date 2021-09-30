@@ -12,7 +12,6 @@ import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.Portlet;
-import javax.swing.*;
 
 import com.serious.model.Honey;
 import com.serious.service.HoneyLocalServiceUtil;
@@ -60,7 +59,6 @@ public class AppOrderPortlet extends MVCPortlet {
         HoneyLocalServiceUtil.updateHoney(honey);
     }
 
-    // TODO: 28.09.2021 проверить работу диалога
     public void deleteStockHoney(ActionRequest request, ActionResponse response) throws PortalException {
         long honeyId = ParamUtil.getLong(request, "honeyId");
         HoneyLocalServiceUtil.deleteHoney(honeyId);

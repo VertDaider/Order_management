@@ -9,9 +9,9 @@
 <portlet:renderURL var="viewURL">
     <portlet:param name="mvcPath" value="/view.jsp"/>
 </portlet:renderURL>
-<portlet:renderURL var="viewKindURL">
+<%--<portlet:renderURL var="viewKindURL">
     <portlet:param name="mvcPath" value="/kind/view.jsp"/>
-</portlet:renderURL>
+</portlet:renderURL>--%>
 
 <portlet:actionURL name="addKind" var="addKindURL"/>
 

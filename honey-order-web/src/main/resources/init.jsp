@@ -8,3 +8,6 @@
 <liferay-theme:defineObjects />
 
 <portlet:defineObjects />
+<style>
+    <%@include file="/css/style.css"%>
+</style>

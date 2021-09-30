@@ -23,12 +23,37 @@
 
 <liferay-ui:search-container searchContainer="${searchContainerList}" curParam="cur2" deltaParam="delta2">
     <liferay-ui:search-container-results results="<%=ordersList%>"/>
-        <liferay-ui:search-container-row className="com.serious.model.Orders" modelVar="orders" cssClass="text-center">
-                <liferay-ui:search-container-column-text name="Номер заказа" property="id"/>
-                <liferay-ui:search-container-column-text name="Дата заказа" value="<%=String.valueOf(orders.getDateOrder())%>"/>
-                <liferay-ui:search-container-column-text name="Заказчик" property="customer"/>
-                <liferay-ui:search-container-column-text name="Статус заказа" property="status"/>
-        </liferay-ui:search-container-row>
+    <liferay-ui:search-container-row className="com.serious.model.Orders" modelVar="orders" cssClass="text-center">
+        <liferay-ui:search-container-column-text name="Номер заказа" property="id"/>
+        <liferay-ui:search-container-column-text name="Дата заказа" value="<%=sdf.format(orders.getDateOrder())%>"/>
+        <liferay-ui:search-container-column-text name="Заказчик" property="customer"/>
+        <liferay-ui:search-container-column-text name="Статус заказа" property="status"/>
+        <liferay-ui:search-container-column-text>
+
+            <liferay-ui:icon-menu direction="left-side" icon="list" markupView="lexicon" message="" showWhenSingleIcon="true">
+
+                <portlet:renderURL var="infoOrderURL">
+                    <portlet:param name="mvcPath" value="/info_order/view.jsp"/>
+                    <portlet:param name="orderId" value="<%=String.valueOf(orders.getId())%>"/>
+                </portlet:renderURL>
+                <liferay-ui:icon icon="info-panel-closed" markupView="lexicon" message="action.info" url="${infoOrderURL}"/>
+                <%--                изменить статус  icon="change"--%>
+                <portlet:actionURL name="editOrder" var="editOrderURL">
+                    <portlet:param name="mvcPath" value="/orders/edit.jsp"/>
+                    <portlet:param name="orderId" value="<%=String.valueOf(orders.getId())%>"/>
+                </portlet:actionURL>
+                <liferay-ui:icon icon="pencil" markupView="lexicon" message="action.edit" url="${editOrderURL}"/>
+
+                <portlet:actionURL name="deleteOrder" var="delOrderURL">
+                    <portlet:param name="mvcPath" value="/orders/view.jsp"/>
+                    <portlet:param name="orderId" value="<%=String.valueOf(orders.getId())%>"/>
+                </portlet:actionURL>
+                <liferay-ui:icon-delete showIcon="true" message="action.delete" url="${delOrderURL}" confirmation="action.confirm"/>
+
+            </liferay-ui:icon-menu>
+
+        </liferay-ui:search-container-column-text>
+    </liferay-ui:search-container-row>
     <liferay-ui:search-iterator/>
 </liferay-ui:search-container>
 
