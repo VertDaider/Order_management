@@ -13,8 +13,9 @@ import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.Portlet;
 
-import com.serious.model.Honey;
-import com.serious.service.HoneyLocalServiceUtil;
+import com.serious.orders.model.Honey;
+import com.serious.orders.service.HoneyLocalServiceUtil;
+import com.serious.orders.service.OrderLocalServiceUtil;
 import org.osgi.service.component.annotations.Component;
 
 /**
@@ -29,7 +30,7 @@ import org.osgi.service.component.annotations.Component;
                 "javax.portlet.display-name=apporder",
                 "javax.portlet.init-param.template-path=/",
                 "javax.portlet.init-param.view-template=/view.jsp",
-                "javax.portlet.name=" + apporderPortletKeys.APPORDER,
+                "javax.portlet.name=" + apporderPortletKeys.MANAGERORDERS,
                 "javax.portlet.resource-bundle=content.Language",
                 "javax.portlet.security-role-ref=power-user,user"
         },
@@ -44,7 +45,7 @@ public class AppOrderPortlet extends MVCPortlet {
         HoneyLocalServiceUtil.updateHoney(honey);
     }
 
-    public void addKind(ActionRequest request, ActionResponse response) throws PortalException {
+    public void addHoney(ActionRequest request, ActionResponse response) throws PortalException {
         ServiceContext serviceContext = ServiceContextFactory.getInstance(Honey.class.getName(), request);
 
         String kind = ParamUtil.getString(request, "type");
@@ -59,7 +60,7 @@ public class AppOrderPortlet extends MVCPortlet {
         HoneyLocalServiceUtil.updateHoney(honey);
     }
 
-    public void deleteStockHoney(ActionRequest request, ActionResponse response) throws PortalException {
+    public void deleteRecHoney(ActionRequest request, ActionResponse response) throws PortalException {
         long honeyId = ParamUtil.getLong(request, "honeyId");
         HoneyLocalServiceUtil.deleteHoney(honeyId);
     }
@@ -76,5 +77,14 @@ public class AppOrderPortlet extends MVCPortlet {
         honey.setPrice(price);
         honey.setStock(isStock);
         HoneyLocalServiceUtil.updateHoney(honey);
+    }
+
+    public void deleteOrder(ActionRequest request, ActionResponse response) throws PortalException {
+        long orderId = ParamUtil.getLong(request, "orderId");
+        OrderLocalServiceUtil.deleteOrder(orderId);
+    }
+
+    public void addOrder(ActionRequest request, ActionResponse response) throws PortalException {
+//        String[] values = ParamUtil.getStringValues(request, "val");
     }
 }

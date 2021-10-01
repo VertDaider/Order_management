@@ -1,6 +1,6 @@
 Bundle-Name: honey-order-web
-Bundle-SymbolicName: com.serious
-Bundle-Version: 1.0.0
+Bundle-SymbolicName: com.serious.orders
+Bundle-Version: 1.0.1
 Export-Package: com.serious.constants
 -contract: JavaPortlet,JavaServlet
 -jsp: *.jsp,*.jspf,*.jspx

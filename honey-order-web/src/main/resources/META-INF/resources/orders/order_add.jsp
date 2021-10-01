@@ -1,13 +1,13 @@
-<%@ page import="com.serious.model.Orders" %>
-<%@ page import="com.serious.model.Honey" %>
-<%@ page import="com.serious.service.HoneyLocalServiceUtil" %>
+<%@ page import="com.serious.orders.model.Order" %>
+<%@ page import="com.serious.orders.model.Honey" %>
+<%@ page import="com.serious.orders.service.HoneyLocalServiceUtil" %>
 <%@ page import="java.util.List" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 
 <%@ include file="/init.jsp" %>
 
 <%
-    Orders order = null;
+    Order order = null;
 %>
 
 <portlet:renderURL var="viewURL">
@@ -17,7 +17,7 @@
 <portlet:actionURL name="addOrder" var="addOrderURL"/>
 
 <aui:form action="${addOrderURL}" name="fm">
-    <aui:model-context bean="<%= order %>" model="<%= Orders.class%>"/>
+    <aui:model-context bean="<%= order %>" model="<%= Order.class%>"/>
     <aui:fieldset-group>
         <aui:fieldset>
             <aui:row>

@@ -1,6 +1,6 @@
-<%@ page import="com.serious.model.Honey" %>
+<%@ page import="com.serious.orders.model.Honey" %>
 <%@ page import="java.util.List" %>
-<%@ page import="com.serious.service.HoneyLocalServiceUtil" %>
+<%@ page import="com.serious.orders.service.HoneyLocalServiceUtil" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 
 <%@ include file="/init.jsp" %>
@@ -21,7 +21,7 @@
 
 <liferay-ui:search-container searchContainer="${searchContainerList}" curParam="cur2" deltaParam="delta2">
     <liferay-ui:search-container-results results="<%=honeyList%>"/>
-    <liferay-ui:search-container-row className="com.serious.model.Honey" modelVar="honey" cssClass="text-center">
+    <liferay-ui:search-container-row className="com.serious.orders.model.Honey" modelVar="honey" cssClass="text-center">
         <liferay-ui:search-container-column-text name="Вид" property="type"/>
         <liferay-ui:search-container-column-text name="Цена" property="price"/>
         <liferay-ui:search-container-column-text name="Наличие">
@@ -34,7 +34,8 @@
         <liferay-ui:search-container-column-text>
             <liferay-ui:icon-menu direction="left-side" icon="list"	markupView="lexicon" message="" showWhenSingleIcon="true">
                 <portlet:actionURL name="editStockHoney" var="editStockURL">
-                    <portlet:param name="mvcPath" value="/kind/view.jsp"/>
+                    <portlet:param name="mvcPath" value="/view.jsp"/>
+                    <portlet:param name="tab" value="tabKind"/>
                     <portlet:param name="honeyId" value="<%=String.valueOf(honey.getId())%>"/>
                 </portlet:actionURL>
                 <liferay-ui:icon icon="redo" markupView="lexicon" message="action.changestatus" url="${editStockURL}"/>
@@ -43,8 +44,9 @@
                     <portlet:param name="honeyId" value="<%=String.valueOf(honey.getId())%>"/>
                 </portlet:renderURL>
                 <liferay-ui:icon icon="pencil" markupView="lexicon" message="action.edit" url="${editKindURL}"/>
-                <portlet:actionURL name="deleteStockHoney" var="delStockURL">
-                    <portlet:param name="mvcPath" value="/kind/view.jsp"/>
+                <portlet:actionURL name="deleteRecHoney" var="delStockURL">
+                    <portlet:param name="mvcPath" value="/view.jsp"/>
+                    <portlet:param name="tab" value="tabKind"/>
                     <portlet:param name="honeyId" value="<%=String.valueOf(honey.getId())%>"/>
                 </portlet:actionURL>
                 <liferay-ui:icon-delete showIcon="true" message="action.delete" url="${delStockURL}" confirmation = "action.confirm"/>

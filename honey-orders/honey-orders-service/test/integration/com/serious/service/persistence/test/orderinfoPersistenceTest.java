@@ -122,6 +122,8 @@ public class OrderInfoPersistenceTest {
 
 		OrderInfo newOrderInfo = _persistence.create(pk);
 
+		newOrderInfo.setOrderid(RandomTestUtil.nextLong());
+
 		newOrderInfo.setType(RandomTestUtil.nextLong());
 
 		newOrderInfo.setAmount(RandomTestUtil.nextInt());
@@ -133,9 +135,18 @@ public class OrderInfoPersistenceTest {
 
 		Assert.assertEquals(existingOrderInfo.getId(), newOrderInfo.getId());
 		Assert.assertEquals(
+			existingOrderInfo.getOrderid(), newOrderInfo.getOrderid());
+		Assert.assertEquals(
 			existingOrderInfo.getType(), newOrderInfo.getType());
 		Assert.assertEquals(
 			existingOrderInfo.getAmount(), newOrderInfo.getAmount());
+	}
+
+	@Test
+	public void testCountByorderid() throws Exception {
+		_persistence.countByorderid(RandomTestUtil.nextLong());
+
+		_persistence.countByorderid(0L);
 	}
 
 	@Test
@@ -163,7 +174,8 @@ public class OrderInfoPersistenceTest {
 
 	protected OrderByComparator<OrderInfo> getOrderByComparator() {
 		return OrderByComparatorFactoryUtil.create(
-			"my_orders_OrderInfo", "id", true, "type", true, "amount", true);
+			"my_orders_OrderInfo", "id", true, "orderid", true, "type", true,
+			"amount", true);
 	}
 
 	@Test
@@ -374,6 +386,8 @@ public class OrderInfoPersistenceTest {
 		long pk = RandomTestUtil.nextLong();
 
 		OrderInfo orderInfo = _persistence.create(pk);
+
+		orderInfo.setOrderid(RandomTestUtil.nextLong());
 
 		orderInfo.setType(RandomTestUtil.nextLong());
 

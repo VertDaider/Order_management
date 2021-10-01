@@ -1,6 +1,6 @@
 <%@ page import="java.util.List" %>
-<%@ page import="com.serious.model.Orders" %>
-<%@ page import="com.serious.service.OrdersLocalServiceUtil" %>
+<%@ page import="com.serious.orders.model.Order" %>
+<%@ page import="com.serious.orders.service.OrderLocalServiceUtil" %>
 <%@ page import="java.text.SimpleDateFormat" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 
@@ -8,7 +8,7 @@
 
 <%
     SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
-    List<Orders> ordersList = OrdersLocalServiceUtil.getOrderses(0, OrdersLocalServiceUtil.getOrdersesCount());
+    List<Order> ordersList = OrderLocalServiceUtil.getOrders(0, OrderLocalServiceUtil.getOrdersCount());
 %>
 <portlet:renderURL var="addOrder">
     <portlet:param name="mvcPath" value="/orders/order_add.jsp"/>
@@ -23,7 +23,7 @@
 
 <liferay-ui:search-container searchContainer="${searchContainerList}" curParam="cur2" deltaParam="delta2">
     <liferay-ui:search-container-results results="<%=ordersList%>"/>
-    <liferay-ui:search-container-row className="com.serious.model.Orders" modelVar="orders" cssClass="text-center">
+    <liferay-ui:search-container-row className="com.serious.orders.model.Order" modelVar="orders" cssClass="text-center">
         <liferay-ui:search-container-column-text name="Номер заказа" property="id"/>
         <liferay-ui:search-container-column-text name="Дата заказа" value="<%=sdf.format(orders.getDateOrder())%>"/>
         <liferay-ui:search-container-column-text name="Заказчик" property="customer"/>
@@ -45,7 +45,8 @@
                 <liferay-ui:icon icon="pencil" markupView="lexicon" message="action.edit" url="${editOrderURL}"/>
 
                 <portlet:actionURL name="deleteOrder" var="delOrderURL">
-                    <portlet:param name="mvcPath" value="/orders/view.jsp"/>
+                    <portlet:param name="mvcPath" value="/view.jsp"/>
+                    <portlet:param name="tab" value="tabOrders"/>
                     <portlet:param name="orderId" value="<%=String.valueOf(orders.getId())%>"/>
                 </portlet:actionURL>
                 <liferay-ui:icon-delete showIcon="true" message="action.delete" url="${delOrderURL}" confirmation="action.confirm"/>

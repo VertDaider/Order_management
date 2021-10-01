@@ -1,22 +1,23 @@
 <?xml version="1.0"?>
 
 <model-hints>
-	<model name="com.serious.model.Honey">
+	<model name="com.serious.orders.model.Honey">
 		<field name="id" type="long" />
 		<field name="type" type="String" />
 		<field name="price" type="int" />
 		<field name="stock" type="boolean" />
 	</model>
-	<model name="com.serious.model.OrderInfo">
-		<field name="id" type="long" />
-		<field name="type" type="long" />
-		<field name="amount" type="int" />
-	</model>
-	<model name="com.serious.model.Orders">
+	<model name="com.serious.orders.model.Order">
 		<field name="id" type="long" />
 		<field name="dateOrder" type="Date" />
 		<field name="customer" type="String" />
-		<field name="orderinfo" type="long" />
 		<field name="status" type="int" />
+		<field name="address" type="String" />
+	</model>
+	<model name="com.serious.orders.model.OrderInfo">
+		<field name="id" type="long" />
+		<field name="orderid" type="long" />
+		<field name="type" type="long" />
+		<field name="amount" type="int" />
 	</model>
 </model-hints>

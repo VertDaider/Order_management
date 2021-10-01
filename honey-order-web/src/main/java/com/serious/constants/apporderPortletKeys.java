@@ -5,7 +5,7 @@ package com.serious.constants;
  */
 public class apporderPortletKeys {
 
-	public static final String APPORDER =
+	public static final String MANAGERORDERS =
 		"com_serious_apporderPortlet";
 
 }

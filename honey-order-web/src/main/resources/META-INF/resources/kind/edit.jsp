@@ -1,6 +1,6 @@
 <%@ page import="com.liferay.portal.kernel.util.ParamUtil" %>
-<%@ page import="com.serious.model.Honey" %>
-<%@ page import="com.serious.service.HoneyLocalServiceUtil" %>
+<%@ page import="com.serious.orders.model.Honey" %>
+<%@ page import="com.serious.orders.service.HoneyLocalServiceUtil" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 
 <%@ include file="/init.jsp" %>
@@ -12,6 +12,7 @@
 
 <portlet:actionURL name="editHoney" var="editHoneyURL">
     <portlet:param name="honeyId" value="<%=String.valueOf(honeyId)%>"/>
+    <portlet:param name="tab" value="tabKind"/>
 </portlet:actionURL>
 
 <aui:form action="${editHoneyURL}" name="fm">
@@ -23,10 +24,11 @@
     <aui:input name="price" label="Цена" type="number" cssClass="add">
         <aui:validator errorMessage="errorInputMessageDigit" name="required" />
     </aui:input>
-    <aui:input name="stock" label="stock" type="checkbox"/>
+    <aui:input name="stock" label="stock" checked="<%=honey.getStock()%>" type="checkbox"/>
 
     <portlet:renderURL var="viewURL">
-        <portlet:param name="mvcPath" value="/kind/view.jsp"/>
+        <portlet:param name="mvcPath" value="/view.jsp"/>
+        <portlet:param name="tab" value="tabKind"/>
     </portlet:renderURL>
 
     <aui:button-row>

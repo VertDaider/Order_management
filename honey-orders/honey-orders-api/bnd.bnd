@@ -1,10 +1,10 @@
 Bundle-Name: honey-orders-api
-Bundle-SymbolicName: com.serious.api
+Bundle-SymbolicName: com.serious.orders.api
 Bundle-Version: 1.0.0
 Export-Package:\
-	com.serious.exception,\
-	com.serious.model,\
-	com.serious.service,\
-	com.serious.service.persistence
+	com.serious.orders.exception,\
+	com.serious.orders.model,\
+	com.serious.orders.service,\
+	com.serious.orders.service.persistence
 -check: EXPORTS
 -includeresource: META-INF/service.xml=../honey-orders-service/service.xml

@@ -1,4 +1,4 @@
-<%@ page import="com.serious.model.Honey" %>
+<%@ page import="com.serious.orders.model.Honey" %>
 <%@ include file="/init.jsp" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 
@@ -8,14 +8,14 @@
 
 <portlet:renderURL var="viewURL">
     <portlet:param name="mvcPath" value="/view.jsp"/>
+    <portlet:param name="tab" value="tabKind"/>
 </portlet:renderURL>
-<%--<portlet:renderURL var="viewKindURL">
-    <portlet:param name="mvcPath" value="/kind/view.jsp"/>
-</portlet:renderURL>--%>
 
-<portlet:actionURL name="addKind" var="addKindURL"/>
+<portlet:actionURL name="addHoney" var="addHoneyURL">
+    <portlet:param name="tab" value="tabKind"/>
+</portlet:actionURL>
 
-<aui:form action="${addKindURL}" name="fm">
+<aui:form action="${addHoneyURL}" name="fm">
     <aui:model-context bean="<%= honey %>" model="<%= Honey.class%>"/>
     
     <aui:input name="type" label="Тип" type="text" cssClass="add">
