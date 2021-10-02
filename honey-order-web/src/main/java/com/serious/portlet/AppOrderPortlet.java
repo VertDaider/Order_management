@@ -2,6 +2,9 @@ package com.serious.portlet;
 
 import com.liferay.counter.kernel.service.CounterLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactory;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextFactory;
 import com.liferay.portal.kernel.util.ParamUtil;
@@ -14,9 +17,14 @@ import javax.portlet.ActionResponse;
 import javax.portlet.Portlet;
 
 import com.serious.orders.model.Honey;
+import com.serious.orders.model.Order;
+import com.serious.orders.model.OrderInfo;
 import com.serious.orders.service.HoneyLocalServiceUtil;
+import com.serious.orders.service.OrderInfoLocalServiceUtil;
 import com.serious.orders.service.OrderLocalServiceUtil;
 import org.osgi.service.component.annotations.Component;
+
+import java.util.Date;
 
 /**
  * @author dovgopolov
@@ -37,6 +45,8 @@ import org.osgi.service.component.annotations.Component;
         service = Portlet.class
 )
 public class AppOrderPortlet extends MVCPortlet {
+
+    private static final Log log = LogFactoryUtil.getLog(AppOrderPortlet.class);
 
     public void editStockHoney(ActionRequest request, ActionResponse response) throws PortalException {
         long honeyID = ParamUtil.getLong(request, "honeyId");
@@ -85,6 +95,25 @@ public class AppOrderPortlet extends MVCPortlet {
     }
 
     public void addOrder(ActionRequest request, ActionResponse response) throws PortalException {
-//        String[] values = ParamUtil.getStringValues(request, "val");
+        String address = ParamUtil.getString(request, "address");
+        String customer = ParamUtil.getString(request, "customer");
+        int type = ParamUtil.getInteger(request, "type");
+        int count = ParamUtil.getInteger(request, "count");
+
+        long orderId = CounterLocalServiceUtil.increment();
+        Order order = OrderLocalServiceUtil.createOrder(orderId);
+        order.setAddress(address);
+        order.setCustomer(customer);
+        order.setDateOrder(new Date());
+        order.setStatus(1);
+        OrderLocalServiceUtil.updateOrder(order);
+
+        long orderInfoId = CounterLocalServiceUtil.increment();
+        OrderInfo orderInfo = OrderInfoLocalServiceUtil.createOrderInfo(orderInfoId);
+
+        orderInfo.setAmount(count);
+        orderInfo.setOrderid(orderId);
+        orderInfo.setType(type);
+        OrderInfoLocalServiceUtil.updateOrderInfo(orderInfo);
     }
 }

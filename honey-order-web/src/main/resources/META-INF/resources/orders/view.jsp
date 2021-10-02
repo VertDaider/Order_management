@@ -2,6 +2,7 @@
 <%@ page import="com.serious.orders.model.Order" %>
 <%@ page import="com.serious.orders.service.OrderLocalServiceUtil" %>
 <%@ page import="java.text.SimpleDateFormat" %>
+<%@ page import="com.serious.util.StatusKeys" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 
 <%@ include file="/init.jsp" %>
@@ -27,7 +28,7 @@
         <liferay-ui:search-container-column-text name="Номер заказа" property="id"/>
         <liferay-ui:search-container-column-text name="Дата заказа" value="<%=sdf.format(orders.getDateOrder())%>"/>
         <liferay-ui:search-container-column-text name="Заказчик" property="customer"/>
-        <liferay-ui:search-container-column-text name="Статус заказа" property="status"/>
+        <liferay-ui:search-container-column-text name="Статус заказа" value="<%=StatusKeys.getTextOnInt(orders.getStatus())%>"/>
         <liferay-ui:search-container-column-text>
 
             <liferay-ui:icon-menu direction="left-side" icon="list" markupView="lexicon" message="" showWhenSingleIcon="true">
@@ -55,7 +56,7 @@
 
         </liferay-ui:search-container-column-text>
     </liferay-ui:search-container-row>
-    <liferay-ui:search-iterator/>
+    <liferay-ui:search-iterator markupView="lexicon"/>
 </liferay-ui:search-container>
 
 
