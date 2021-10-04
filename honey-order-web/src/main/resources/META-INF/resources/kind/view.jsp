@@ -38,7 +38,7 @@
                     <portlet:param name="tab" value="tabKind"/>
                     <portlet:param name="honeyId" value="<%=String.valueOf(honey.getId())%>"/>
                 </portlet:actionURL>
-                <liferay-ui:icon icon="redo" markupView="lexicon" message="action.changestatus" url="${editStockURL}"/>
+                <liferay-ui:icon icon="redo" markupView="lexicon" message="action.change.stock" url="${editStockURL}"/>
                 <portlet:renderURL var="editKindURL">
                     <portlet:param name="mvcPath" value="/kind/edit.jsp"/>
                     <portlet:param name="honeyId" value="<%=String.valueOf(honey.getId())%>"/>

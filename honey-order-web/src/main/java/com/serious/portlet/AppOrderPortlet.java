@@ -116,4 +116,12 @@ public class AppOrderPortlet extends MVCPortlet {
         orderInfo.setType(type);
         OrderInfoLocalServiceUtil.updateOrderInfo(orderInfo);
     }
+
+    public void editStatusOrder(ActionRequest request, ActionResponse response) throws PortalException {
+        int status = ParamUtil.getInteger(request, "status");
+        long orderId = ParamUtil.getLong(request, "orderId");
+        Order order = OrderLocalServiceUtil.getOrder(orderId);
+        order.setStatus(status);
+        OrderLocalServiceUtil.updateOrder(order);
+    }
 }

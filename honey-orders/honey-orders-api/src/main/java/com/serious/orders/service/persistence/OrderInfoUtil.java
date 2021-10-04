@@ -125,13 +125,71 @@ public class OrderInfoUtil {
 	}
 
 	/**
+	 * Returns the order info where orderid = &#63; or throws a <code>NoSuchOrderInfoException</code> if it could not be found.
+	 *
+	 * @param orderid the orderid
+	 * @return the matching order info
+	 * @throws NoSuchOrderInfoException if a matching order info could not be found
+	 */
+	public static OrderInfo findByOrderid(long orderid)
+		throws com.serious.orders.exception.NoSuchOrderInfoException {
+
+		return getPersistence().findByOrderid(orderid);
+	}
+
+	/**
+	 * Returns the order info where orderid = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+	 *
+	 * @param orderid the orderid
+	 * @return the matching order info, or <code>null</code> if a matching order info could not be found
+	 */
+	public static OrderInfo fetchByOrderid(long orderid) {
+		return getPersistence().fetchByOrderid(orderid);
+	}
+
+	/**
+	 * Returns the order info where orderid = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+	 *
+	 * @param orderid the orderid
+	 * @param useFinderCache whether to use the finder cache
+	 * @return the matching order info, or <code>null</code> if a matching order info could not be found
+	 */
+	public static OrderInfo fetchByOrderid(
+		long orderid, boolean useFinderCache) {
+
+		return getPersistence().fetchByOrderid(orderid, useFinderCache);
+	}
+
+	/**
+	 * Removes the order info where orderid = &#63; from the database.
+	 *
+	 * @param orderid the orderid
+	 * @return the order info that was removed
+	 */
+	public static OrderInfo removeByOrderid(long orderid)
+		throws com.serious.orders.exception.NoSuchOrderInfoException {
+
+		return getPersistence().removeByOrderid(orderid);
+	}
+
+	/**
+	 * Returns the number of order infos where orderid = &#63;.
+	 *
+	 * @param orderid the orderid
+	 * @return the number of matching order infos
+	 */
+	public static int countByOrderid(long orderid) {
+		return getPersistence().countByOrderid(orderid);
+	}
+
+	/**
 	 * Returns all the order infos where orderid = &#63;.
 	 *
 	 * @param orderid the orderid
 	 * @return the matching order infos
 	 */
-	public static List<OrderInfo> findByorderid(long orderid) {
-		return getPersistence().findByorderid(orderid);
+	public static List<OrderInfo> findByOrder(long orderid) {
+		return getPersistence().findByOrder(orderid);
 	}
 
 	/**
@@ -146,10 +204,10 @@ public class OrderInfoUtil {
 	 * @param end the upper bound of the range of order infos (not inclusive)
 	 * @return the range of matching order infos
 	 */
-	public static List<OrderInfo> findByorderid(
+	public static List<OrderInfo> findByOrder(
 		long orderid, int start, int end) {
 
-		return getPersistence().findByorderid(orderid, start, end);
+		return getPersistence().findByOrder(orderid, start, end);
 	}
 
 	/**
@@ -165,11 +223,11 @@ public class OrderInfoUtil {
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching order infos
 	 */
-	public static List<OrderInfo> findByorderid(
+	public static List<OrderInfo> findByOrder(
 		long orderid, int start, int end,
 		OrderByComparator<OrderInfo> orderByComparator) {
 
-		return getPersistence().findByorderid(
+		return getPersistence().findByOrder(
 			orderid, start, end, orderByComparator);
 	}
 
@@ -187,12 +245,12 @@ public class OrderInfoUtil {
 	 * @param useFinderCache whether to use the finder cache
 	 * @return the ordered range of matching order infos
 	 */
-	public static List<OrderInfo> findByorderid(
+	public static List<OrderInfo> findByOrder(
 		long orderid, int start, int end,
 		OrderByComparator<OrderInfo> orderByComparator,
 		boolean useFinderCache) {
 
-		return getPersistence().findByorderid(
+		return getPersistence().findByOrder(
 			orderid, start, end, orderByComparator, useFinderCache);
 	}
 
@@ -204,11 +262,11 @@ public class OrderInfoUtil {
 	 * @return the first matching order info
 	 * @throws NoSuchOrderInfoException if a matching order info could not be found
 	 */
-	public static OrderInfo findByorderid_First(
+	public static OrderInfo findByOrder_First(
 			long orderid, OrderByComparator<OrderInfo> orderByComparator)
 		throws com.serious.orders.exception.NoSuchOrderInfoException {
 
-		return getPersistence().findByorderid_First(orderid, orderByComparator);
+		return getPersistence().findByOrder_First(orderid, orderByComparator);
 	}
 
 	/**
@@ -218,11 +276,10 @@ public class OrderInfoUtil {
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the first matching order info, or <code>null</code> if a matching order info could not be found
 	 */
-	public static OrderInfo fetchByorderid_First(
+	public static OrderInfo fetchByOrder_First(
 		long orderid, OrderByComparator<OrderInfo> orderByComparator) {
 
-		return getPersistence().fetchByorderid_First(
-			orderid, orderByComparator);
+		return getPersistence().fetchByOrder_First(orderid, orderByComparator);
 	}
 
 	/**
@@ -233,11 +290,11 @@ public class OrderInfoUtil {
 	 * @return the last matching order info
 	 * @throws NoSuchOrderInfoException if a matching order info could not be found
 	 */
-	public static OrderInfo findByorderid_Last(
+	public static OrderInfo findByOrder_Last(
 			long orderid, OrderByComparator<OrderInfo> orderByComparator)
 		throws com.serious.orders.exception.NoSuchOrderInfoException {
 
-		return getPersistence().findByorderid_Last(orderid, orderByComparator);
+		return getPersistence().findByOrder_Last(orderid, orderByComparator);
 	}
 
 	/**
@@ -247,10 +304,10 @@ public class OrderInfoUtil {
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the last matching order info, or <code>null</code> if a matching order info could not be found
 	 */
-	public static OrderInfo fetchByorderid_Last(
+	public static OrderInfo fetchByOrder_Last(
 		long orderid, OrderByComparator<OrderInfo> orderByComparator) {
 
-		return getPersistence().fetchByorderid_Last(orderid, orderByComparator);
+		return getPersistence().fetchByOrder_Last(orderid, orderByComparator);
 	}
 
 	/**
@@ -262,12 +319,12 @@ public class OrderInfoUtil {
 	 * @return the previous, current, and next order info
 	 * @throws NoSuchOrderInfoException if a order info with the primary key could not be found
 	 */
-	public static OrderInfo[] findByorderid_PrevAndNext(
+	public static OrderInfo[] findByOrder_PrevAndNext(
 			long id, long orderid,
 			OrderByComparator<OrderInfo> orderByComparator)
 		throws com.serious.orders.exception.NoSuchOrderInfoException {
 
-		return getPersistence().findByorderid_PrevAndNext(
+		return getPersistence().findByOrder_PrevAndNext(
 			id, orderid, orderByComparator);
 	}
 
@@ -276,8 +333,8 @@ public class OrderInfoUtil {
 	 *
 	 * @param orderid the orderid
 	 */
-	public static void removeByorderid(long orderid) {
-		getPersistence().removeByorderid(orderid);
+	public static void removeByOrder(long orderid) {
+		getPersistence().removeByOrder(orderid);
 	}
 
 	/**
@@ -286,8 +343,8 @@ public class OrderInfoUtil {
 	 * @param orderid the orderid
 	 * @return the number of matching order infos
 	 */
-	public static int countByorderid(long orderid) {
-		return getPersistence().countByorderid(orderid);
+	public static int countByOrder(long orderid) {
+		return getPersistence().countByOrder(orderid);
 	}
 
 	/**

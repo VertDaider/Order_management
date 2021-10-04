@@ -21,6 +21,8 @@ import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.Session;
+import com.liferay.portal.kernel.test.ReflectionTestUtil;
 import com.liferay.portal.kernel.test.rule.AggregateTestRule;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
 import com.liferay.portal.kernel.transaction.Propagation;
@@ -143,10 +145,17 @@ public class OrderInfoPersistenceTest {
 	}
 
 	@Test
-	public void testCountByorderid() throws Exception {
-		_persistence.countByorderid(RandomTestUtil.nextLong());
+	public void testCountByOrderid() throws Exception {
+		_persistence.countByOrderid(RandomTestUtil.nextLong());
 
-		_persistence.countByorderid(0L);
+		_persistence.countByOrderid(0L);
+	}
+
+	@Test
+	public void testCountByOrder() throws Exception {
+		_persistence.countByOrder(RandomTestUtil.nextLong());
+
+		_persistence.countByOrder(0L);
 	}
 
 	@Test
@@ -380,6 +389,63 @@ public class OrderInfoPersistenceTest {
 		List<Object> result = _persistence.findWithDynamicQuery(dynamicQuery);
 
 		Assert.assertEquals(0, result.size());
+	}
+
+	@Test
+	public void testResetOriginalValues() throws Exception {
+		OrderInfo newOrderInfo = addOrderInfo();
+
+		_persistence.clearCache();
+
+		_assertOriginalValues(
+			_persistence.findByPrimaryKey(newOrderInfo.getPrimaryKey()));
+	}
+
+	@Test
+	public void testResetOriginalValuesWithDynamicQueryLoadFromDatabase()
+		throws Exception {
+
+		_testResetOriginalValuesWithDynamicQuery(true);
+	}
+
+	@Test
+	public void testResetOriginalValuesWithDynamicQueryLoadFromSession()
+		throws Exception {
+
+		_testResetOriginalValuesWithDynamicQuery(false);
+	}
+
+	private void _testResetOriginalValuesWithDynamicQuery(boolean clearSession)
+		throws Exception {
+
+		OrderInfo newOrderInfo = addOrderInfo();
+
+		if (clearSession) {
+			Session session = _persistence.openSession();
+
+			session.flush();
+
+			session.clear();
+		}
+
+		DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(
+			OrderInfo.class, _dynamicQueryClassLoader);
+
+		dynamicQuery.add(
+			RestrictionsFactoryUtil.eq("id", newOrderInfo.getId()));
+
+		List<OrderInfo> result = _persistence.findWithDynamicQuery(
+			dynamicQuery);
+
+		_assertOriginalValues(result.get(0));
+	}
+
+	private void _assertOriginalValues(OrderInfo orderInfo) {
+		Assert.assertEquals(
+			Long.valueOf(orderInfo.getOrderid()),
+			ReflectionTestUtil.<Long>invoke(
+				orderInfo, "getColumnOriginalValue",
+				new Class<?>[] {String.class}, "orderid"));
 	}
 
 	protected OrderInfo addOrderInfo() throws Exception {

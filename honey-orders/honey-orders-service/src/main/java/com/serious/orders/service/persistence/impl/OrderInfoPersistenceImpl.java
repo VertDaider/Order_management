@@ -33,6 +33,7 @@ import com.liferay.portal.kernel.util.MapUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.SetUtil;
+import com.liferay.portal.kernel.util.StringUtil;
 
 import com.serious.orders.exception.NoSuchOrderInfoException;
 import com.serious.orders.model.OrderInfo;
@@ -45,6 +46,7 @@ import java.io.Serializable;
 
 import java.lang.reflect.InvocationHandler;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -92,9 +94,220 @@ public class OrderInfoPersistenceImpl
 	private FinderPath _finderPathWithPaginationFindAll;
 	private FinderPath _finderPathWithoutPaginationFindAll;
 	private FinderPath _finderPathCountAll;
-	private FinderPath _finderPathWithPaginationFindByorderid;
-	private FinderPath _finderPathWithoutPaginationFindByorderid;
-	private FinderPath _finderPathCountByorderid;
+	private FinderPath _finderPathFetchByOrderid;
+	private FinderPath _finderPathCountByOrderid;
+
+	/**
+	 * Returns the order info where orderid = &#63; or throws a <code>NoSuchOrderInfoException</code> if it could not be found.
+	 *
+	 * @param orderid the orderid
+	 * @return the matching order info
+	 * @throws NoSuchOrderInfoException if a matching order info could not be found
+	 */
+	@Override
+	public OrderInfo findByOrderid(long orderid)
+		throws NoSuchOrderInfoException {
+
+		OrderInfo orderInfo = fetchByOrderid(orderid);
+
+		if (orderInfo == null) {
+			StringBundler sb = new StringBundler(4);
+
+			sb.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+			sb.append("orderid=");
+			sb.append(orderid);
+
+			sb.append("}");
+
+			if (_log.isDebugEnabled()) {
+				_log.debug(sb.toString());
+			}
+
+			throw new NoSuchOrderInfoException(sb.toString());
+		}
+
+		return orderInfo;
+	}
+
+	/**
+	 * Returns the order info where orderid = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+	 *
+	 * @param orderid the orderid
+	 * @return the matching order info, or <code>null</code> if a matching order info could not be found
+	 */
+	@Override
+	public OrderInfo fetchByOrderid(long orderid) {
+		return fetchByOrderid(orderid, true);
+	}
+
+	/**
+	 * Returns the order info where orderid = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+	 *
+	 * @param orderid the orderid
+	 * @param useFinderCache whether to use the finder cache
+	 * @return the matching order info, or <code>null</code> if a matching order info could not be found
+	 */
+	@Override
+	public OrderInfo fetchByOrderid(long orderid, boolean useFinderCache) {
+		Object[] finderArgs = null;
+
+		if (useFinderCache) {
+			finderArgs = new Object[] {orderid};
+		}
+
+		Object result = null;
+
+		if (useFinderCache) {
+			result = finderCache.getResult(
+				_finderPathFetchByOrderid, finderArgs, this);
+		}
+
+		if (result instanceof OrderInfo) {
+			OrderInfo orderInfo = (OrderInfo)result;
+
+			if (orderid != orderInfo.getOrderid()) {
+				result = null;
+			}
+		}
+
+		if (result == null) {
+			StringBundler sb = new StringBundler(3);
+
+			sb.append(_SQL_SELECT_ORDERINFO_WHERE);
+
+			sb.append(_FINDER_COLUMN_ORDERID_ORDERID_2);
+
+			String sql = sb.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query query = session.createQuery(sql);
+
+				QueryPos queryPos = QueryPos.getInstance(query);
+
+				queryPos.add(orderid);
+
+				List<OrderInfo> list = query.list();
+
+				if (list.isEmpty()) {
+					if (useFinderCache) {
+						finderCache.putResult(
+							_finderPathFetchByOrderid, finderArgs, list);
+					}
+				}
+				else {
+					if (list.size() > 1) {
+						Collections.sort(list, Collections.reverseOrder());
+
+						if (_log.isWarnEnabled()) {
+							if (!useFinderCache) {
+								finderArgs = new Object[] {orderid};
+							}
+
+							_log.warn(
+								"OrderInfoPersistenceImpl.fetchByOrderid(long, boolean) with parameters (" +
+									StringUtil.merge(finderArgs) +
+										") yields a result set with more than 1 result. This violates the logical unique restriction. There is no order guarantee on which result is returned by this finder.");
+						}
+					}
+
+					OrderInfo orderInfo = list.get(0);
+
+					result = orderInfo;
+
+					cacheResult(orderInfo);
+				}
+			}
+			catch (Exception exception) {
+				throw processException(exception);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		if (result instanceof List<?>) {
+			return null;
+		}
+		else {
+			return (OrderInfo)result;
+		}
+	}
+
+	/**
+	 * Removes the order info where orderid = &#63; from the database.
+	 *
+	 * @param orderid the orderid
+	 * @return the order info that was removed
+	 */
+	@Override
+	public OrderInfo removeByOrderid(long orderid)
+		throws NoSuchOrderInfoException {
+
+		OrderInfo orderInfo = findByOrderid(orderid);
+
+		return remove(orderInfo);
+	}
+
+	/**
+	 * Returns the number of order infos where orderid = &#63;.
+	 *
+	 * @param orderid the orderid
+	 * @return the number of matching order infos
+	 */
+	@Override
+	public int countByOrderid(long orderid) {
+		FinderPath finderPath = _finderPathCountByOrderid;
+
+		Object[] finderArgs = new Object[] {orderid};
+
+		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
+
+		if (count == null) {
+			StringBundler sb = new StringBundler(2);
+
+			sb.append(_SQL_COUNT_ORDERINFO_WHERE);
+
+			sb.append(_FINDER_COLUMN_ORDERID_ORDERID_2);
+
+			String sql = sb.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query query = session.createQuery(sql);
+
+				QueryPos queryPos = QueryPos.getInstance(query);
+
+				queryPos.add(orderid);
+
+				count = (Long)query.uniqueResult();
+
+				finderCache.putResult(finderPath, finderArgs, count);
+			}
+			catch (Exception exception) {
+				throw processException(exception);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return count.intValue();
+	}
+
+	private static final String _FINDER_COLUMN_ORDERID_ORDERID_2 =
+		"orderInfo.orderid = ?";
+
+	private FinderPath _finderPathWithPaginationFindByOrder;
+	private FinderPath _finderPathWithoutPaginationFindByOrder;
+	private FinderPath _finderPathCountByOrder;
 
 	/**
 	 * Returns all the order infos where orderid = &#63;.
@@ -103,9 +316,8 @@ public class OrderInfoPersistenceImpl
 	 * @return the matching order infos
 	 */
 	@Override
-	public List<OrderInfo> findByorderid(long orderid) {
-		return findByorderid(
-			orderid, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
+	public List<OrderInfo> findByOrder(long orderid) {
+		return findByOrder(orderid, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
 	}
 
 	/**
@@ -121,8 +333,8 @@ public class OrderInfoPersistenceImpl
 	 * @return the range of matching order infos
 	 */
 	@Override
-	public List<OrderInfo> findByorderid(long orderid, int start, int end) {
-		return findByorderid(orderid, start, end, null);
+	public List<OrderInfo> findByOrder(long orderid, int start, int end) {
+		return findByOrder(orderid, start, end, null);
 	}
 
 	/**
@@ -139,11 +351,11 @@ public class OrderInfoPersistenceImpl
 	 * @return the ordered range of matching order infos
 	 */
 	@Override
-	public List<OrderInfo> findByorderid(
+	public List<OrderInfo> findByOrder(
 		long orderid, int start, int end,
 		OrderByComparator<OrderInfo> orderByComparator) {
 
-		return findByorderid(orderid, start, end, orderByComparator, true);
+		return findByOrder(orderid, start, end, orderByComparator, true);
 	}
 
 	/**
@@ -161,7 +373,7 @@ public class OrderInfoPersistenceImpl
 	 * @return the ordered range of matching order infos
 	 */
 	@Override
-	public List<OrderInfo> findByorderid(
+	public List<OrderInfo> findByOrder(
 		long orderid, int start, int end,
 		OrderByComparator<OrderInfo> orderByComparator,
 		boolean useFinderCache) {
@@ -173,12 +385,12 @@ public class OrderInfoPersistenceImpl
 			(orderByComparator == null)) {
 
 			if (useFinderCache) {
-				finderPath = _finderPathWithoutPaginationFindByorderid;
+				finderPath = _finderPathWithoutPaginationFindByOrder;
 				finderArgs = new Object[] {orderid};
 			}
 		}
 		else if (useFinderCache) {
-			finderPath = _finderPathWithPaginationFindByorderid;
+			finderPath = _finderPathWithPaginationFindByOrder;
 			finderArgs = new Object[] {orderid, start, end, orderByComparator};
 		}
 
@@ -212,7 +424,7 @@ public class OrderInfoPersistenceImpl
 
 			sb.append(_SQL_SELECT_ORDERINFO_WHERE);
 
-			sb.append(_FINDER_COLUMN_ORDERID_ORDERID_2);
+			sb.append(_FINDER_COLUMN_ORDER_ORDERID_2);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(
@@ -264,11 +476,11 @@ public class OrderInfoPersistenceImpl
 	 * @throws NoSuchOrderInfoException if a matching order info could not be found
 	 */
 	@Override
-	public OrderInfo findByorderid_First(
+	public OrderInfo findByOrder_First(
 			long orderid, OrderByComparator<OrderInfo> orderByComparator)
 		throws NoSuchOrderInfoException {
 
-		OrderInfo orderInfo = fetchByorderid_First(orderid, orderByComparator);
+		OrderInfo orderInfo = fetchByOrder_First(orderid, orderByComparator);
 
 		if (orderInfo != null) {
 			return orderInfo;
@@ -294,10 +506,10 @@ public class OrderInfoPersistenceImpl
 	 * @return the first matching order info, or <code>null</code> if a matching order info could not be found
 	 */
 	@Override
-	public OrderInfo fetchByorderid_First(
+	public OrderInfo fetchByOrder_First(
 		long orderid, OrderByComparator<OrderInfo> orderByComparator) {
 
-		List<OrderInfo> list = findByorderid(orderid, 0, 1, orderByComparator);
+		List<OrderInfo> list = findByOrder(orderid, 0, 1, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -315,11 +527,11 @@ public class OrderInfoPersistenceImpl
 	 * @throws NoSuchOrderInfoException if a matching order info could not be found
 	 */
 	@Override
-	public OrderInfo findByorderid_Last(
+	public OrderInfo findByOrder_Last(
 			long orderid, OrderByComparator<OrderInfo> orderByComparator)
 		throws NoSuchOrderInfoException {
 
-		OrderInfo orderInfo = fetchByorderid_Last(orderid, orderByComparator);
+		OrderInfo orderInfo = fetchByOrder_Last(orderid, orderByComparator);
 
 		if (orderInfo != null) {
 			return orderInfo;
@@ -345,16 +557,16 @@ public class OrderInfoPersistenceImpl
 	 * @return the last matching order info, or <code>null</code> if a matching order info could not be found
 	 */
 	@Override
-	public OrderInfo fetchByorderid_Last(
+	public OrderInfo fetchByOrder_Last(
 		long orderid, OrderByComparator<OrderInfo> orderByComparator) {
 
-		int count = countByorderid(orderid);
+		int count = countByOrder(orderid);
 
 		if (count == 0) {
 			return null;
 		}
 
-		List<OrderInfo> list = findByorderid(
+		List<OrderInfo> list = findByOrder(
 			orderid, count - 1, count, orderByComparator);
 
 		if (!list.isEmpty()) {
@@ -374,7 +586,7 @@ public class OrderInfoPersistenceImpl
 	 * @throws NoSuchOrderInfoException if a order info with the primary key could not be found
 	 */
 	@Override
-	public OrderInfo[] findByorderid_PrevAndNext(
+	public OrderInfo[] findByOrder_PrevAndNext(
 			long id, long orderid,
 			OrderByComparator<OrderInfo> orderByComparator)
 		throws NoSuchOrderInfoException {
@@ -388,12 +600,12 @@ public class OrderInfoPersistenceImpl
 
 			OrderInfo[] array = new OrderInfoImpl[3];
 
-			array[0] = getByorderid_PrevAndNext(
+			array[0] = getByOrder_PrevAndNext(
 				session, orderInfo, orderid, orderByComparator, true);
 
 			array[1] = orderInfo;
 
-			array[2] = getByorderid_PrevAndNext(
+			array[2] = getByOrder_PrevAndNext(
 				session, orderInfo, orderid, orderByComparator, false);
 
 			return array;
@@ -406,7 +618,7 @@ public class OrderInfoPersistenceImpl
 		}
 	}
 
-	protected OrderInfo getByorderid_PrevAndNext(
+	protected OrderInfo getByOrder_PrevAndNext(
 		Session session, OrderInfo orderInfo, long orderid,
 		OrderByComparator<OrderInfo> orderByComparator, boolean previous) {
 
@@ -423,7 +635,7 @@ public class OrderInfoPersistenceImpl
 
 		sb.append(_SQL_SELECT_ORDERINFO_WHERE);
 
-		sb.append(_FINDER_COLUMN_ORDERID_ORDERID_2);
+		sb.append(_FINDER_COLUMN_ORDER_ORDERID_2);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields =
@@ -520,9 +732,9 @@ public class OrderInfoPersistenceImpl
 	 * @param orderid the orderid
 	 */
 	@Override
-	public void removeByorderid(long orderid) {
+	public void removeByOrder(long orderid) {
 		for (OrderInfo orderInfo :
-				findByorderid(
+				findByOrder(
 					orderid, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
 
 			remove(orderInfo);
@@ -536,8 +748,8 @@ public class OrderInfoPersistenceImpl
 	 * @return the number of matching order infos
 	 */
 	@Override
-	public int countByorderid(long orderid) {
-		FinderPath finderPath = _finderPathCountByorderid;
+	public int countByOrder(long orderid) {
+		FinderPath finderPath = _finderPathCountByOrder;
 
 		Object[] finderArgs = new Object[] {orderid};
 
@@ -548,7 +760,7 @@ public class OrderInfoPersistenceImpl
 
 			sb.append(_SQL_COUNT_ORDERINFO_WHERE);
 
-			sb.append(_FINDER_COLUMN_ORDERID_ORDERID_2);
+			sb.append(_FINDER_COLUMN_ORDER_ORDERID_2);
 
 			String sql = sb.toString();
 
@@ -578,7 +790,7 @@ public class OrderInfoPersistenceImpl
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_ORDERID_ORDERID_2 =
+	private static final String _FINDER_COLUMN_ORDER_ORDERID_2 =
 		"orderInfo.orderid = ?";
 
 	public OrderInfoPersistenceImpl() {
@@ -604,6 +816,10 @@ public class OrderInfoPersistenceImpl
 	public void cacheResult(OrderInfo orderInfo) {
 		entityCache.putResult(
 			OrderInfoImpl.class, orderInfo.getPrimaryKey(), orderInfo);
+
+		finderCache.putResult(
+			_finderPathFetchByOrderid, new Object[] {orderInfo.getOrderid()},
+			orderInfo);
 	}
 
 	/**
@@ -666,6 +882,17 @@ public class OrderInfoPersistenceImpl
 		for (Serializable primaryKey : primaryKeys) {
 			entityCache.removeResult(OrderInfoImpl.class, primaryKey);
 		}
+	}
+
+	protected void cacheUniqueFindersCache(
+		OrderInfoModelImpl orderInfoModelImpl) {
+
+		Object[] args = new Object[] {orderInfoModelImpl.getOrderid()};
+
+		finderCache.putResult(
+			_finderPathCountByOrderid, args, Long.valueOf(1), false);
+		finderCache.putResult(
+			_finderPathFetchByOrderid, args, orderInfoModelImpl, false);
 	}
 
 	/**
@@ -810,6 +1037,8 @@ public class OrderInfoPersistenceImpl
 
 		entityCache.putResult(
 			OrderInfoImpl.class, orderInfoModelImpl, false, true);
+
+		cacheUniqueFindersCache(orderInfoModelImpl);
 
 		if (isNew) {
 			orderInfo.setNew(false);
@@ -1096,21 +1325,31 @@ public class OrderInfoPersistenceImpl
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0], new String[0], false);
 
-		_finderPathWithPaginationFindByorderid = _createFinderPath(
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByorderid",
+		_finderPathFetchByOrderid = _createFinderPath(
+			FINDER_CLASS_NAME_ENTITY, "fetchByOrderid",
+			new String[] {Long.class.getName()}, new String[] {"orderid"},
+			true);
+
+		_finderPathCountByOrderid = _createFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByOrderid",
+			new String[] {Long.class.getName()}, new String[] {"orderid"},
+			false);
+
+		_finderPathWithPaginationFindByOrder = _createFinderPath(
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByOrder",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
 			},
 			new String[] {"orderid"}, true);
 
-		_finderPathWithoutPaginationFindByorderid = _createFinderPath(
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByorderid",
+		_finderPathWithoutPaginationFindByOrder = _createFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByOrder",
 			new String[] {Long.class.getName()}, new String[] {"orderid"},
 			true);
 
-		_finderPathCountByorderid = _createFinderPath(
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByorderid",
+		_finderPathCountByOrder = _createFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByOrder",
 			new String[] {Long.class.getName()}, new String[] {"orderid"},
 			false);
 	}

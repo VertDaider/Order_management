@@ -8,10 +8,10 @@
 		<column name="type" type="String" />
 		<column name="price" type="int" />
 		<column name="stock" type="boolean"/>
-		<finder name="type" return-type="Collection">
+		<finder name="Type" return-type="Collection">
 			<finder-column name="type" />
 		</finder>
-		<finder name="price" return-type="Collection">
+		<finder name="Price" return-type="Honey">
 			<finder-column name="price" />
 		</finder>
 	</entity>
@@ -20,7 +20,10 @@
 		<column name="orderid" type="long"/>
 		<column name="type" type="long" />
 		<column name="amount" type="int" />
-		<finder name="orderid" return-type="Collection">
+		<finder name="Orderid" return-type="OrderInfo">
+			<finder-column name="orderid" />
+		</finder>
+		<finder name="Order" return-type="Collection">
 			<finder-column name="orderid" />
 		</finder>
 	</entity>

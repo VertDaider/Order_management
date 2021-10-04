@@ -21,6 +21,8 @@ import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.Session;
+import com.liferay.portal.kernel.test.ReflectionTestUtil;
 import com.liferay.portal.kernel.test.rule.AggregateTestRule;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
 import com.liferay.portal.kernel.transaction.Propagation;
@@ -140,19 +142,19 @@ public class HoneyPersistenceTest {
 	}
 
 	@Test
-	public void testCountBytype() throws Exception {
-		_persistence.countBytype("");
+	public void testCountByType() throws Exception {
+		_persistence.countByType("");
 
-		_persistence.countBytype("null");
+		_persistence.countByType("null");
 
-		_persistence.countBytype((String)null);
+		_persistence.countByType((String)null);
 	}
 
 	@Test
-	public void testCountByprice() throws Exception {
-		_persistence.countByprice(RandomTestUtil.nextInt());
+	public void testCountByPrice() throws Exception {
+		_persistence.countByPrice(RandomTestUtil.nextInt());
 
-		_persistence.countByprice(0);
+		_persistence.countByPrice(0);
 	}
 
 	@Test
@@ -379,6 +381,61 @@ public class HoneyPersistenceTest {
 		List<Object> result = _persistence.findWithDynamicQuery(dynamicQuery);
 
 		Assert.assertEquals(0, result.size());
+	}
+
+	@Test
+	public void testResetOriginalValues() throws Exception {
+		Honey newHoney = addHoney();
+
+		_persistence.clearCache();
+
+		_assertOriginalValues(
+			_persistence.findByPrimaryKey(newHoney.getPrimaryKey()));
+	}
+
+	@Test
+	public void testResetOriginalValuesWithDynamicQueryLoadFromDatabase()
+		throws Exception {
+
+		_testResetOriginalValuesWithDynamicQuery(true);
+	}
+
+	@Test
+	public void testResetOriginalValuesWithDynamicQueryLoadFromSession()
+		throws Exception {
+
+		_testResetOriginalValuesWithDynamicQuery(false);
+	}
+
+	private void _testResetOriginalValuesWithDynamicQuery(boolean clearSession)
+		throws Exception {
+
+		Honey newHoney = addHoney();
+
+		if (clearSession) {
+			Session session = _persistence.openSession();
+
+			session.flush();
+
+			session.clear();
+		}
+
+		DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(
+			Honey.class, _dynamicQueryClassLoader);
+
+		dynamicQuery.add(RestrictionsFactoryUtil.eq("id", newHoney.getId()));
+
+		List<Honey> result = _persistence.findWithDynamicQuery(dynamicQuery);
+
+		_assertOriginalValues(result.get(0));
+	}
+
+	private void _assertOriginalValues(Honey honey) {
+		Assert.assertEquals(
+			Integer.valueOf(honey.getPrice()),
+			ReflectionTestUtil.<Integer>invoke(
+				honey, "getColumnOriginalValue", new Class<?>[] {String.class},
+				"price"));
 	}
 
 	protected Honey addHoney() throws Exception {

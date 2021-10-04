@@ -47,7 +47,7 @@ public interface HoneyPersistence extends BasePersistence<Honey> {
 	 * @param type the type
 	 * @return the matching honeys
 	 */
-	public java.util.List<Honey> findBytype(String type);
+	public java.util.List<Honey> findByType(String type);
 
 	/**
 	 * Returns a range of all the honeys where type = &#63;.
@@ -61,7 +61,7 @@ public interface HoneyPersistence extends BasePersistence<Honey> {
 	 * @param end the upper bound of the range of honeys (not inclusive)
 	 * @return the range of matching honeys
 	 */
-	public java.util.List<Honey> findBytype(String type, int start, int end);
+	public java.util.List<Honey> findByType(String type, int start, int end);
 
 	/**
 	 * Returns an ordered range of all the honeys where type = &#63;.
@@ -76,7 +76,7 @@ public interface HoneyPersistence extends BasePersistence<Honey> {
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching honeys
 	 */
-	public java.util.List<Honey> findBytype(
+	public java.util.List<Honey> findByType(
 		String type, int start, int end,
 		com.liferay.portal.kernel.util.OrderByComparator<Honey>
 			orderByComparator);
@@ -95,7 +95,7 @@ public interface HoneyPersistence extends BasePersistence<Honey> {
 	 * @param useFinderCache whether to use the finder cache
 	 * @return the ordered range of matching honeys
 	 */
-	public java.util.List<Honey> findBytype(
+	public java.util.List<Honey> findByType(
 		String type, int start, int end,
 		com.liferay.portal.kernel.util.OrderByComparator<Honey>
 			orderByComparator,
@@ -109,7 +109,7 @@ public interface HoneyPersistence extends BasePersistence<Honey> {
 	 * @return the first matching honey
 	 * @throws NoSuchHoneyException if a matching honey could not be found
 	 */
-	public Honey findBytype_First(
+	public Honey findByType_First(
 			String type,
 			com.liferay.portal.kernel.util.OrderByComparator<Honey>
 				orderByComparator)
@@ -122,7 +122,7 @@ public interface HoneyPersistence extends BasePersistence<Honey> {
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the first matching honey, or <code>null</code> if a matching honey could not be found
 	 */
-	public Honey fetchBytype_First(
+	public Honey fetchByType_First(
 		String type,
 		com.liferay.portal.kernel.util.OrderByComparator<Honey>
 			orderByComparator);
@@ -135,7 +135,7 @@ public interface HoneyPersistence extends BasePersistence<Honey> {
 	 * @return the last matching honey
 	 * @throws NoSuchHoneyException if a matching honey could not be found
 	 */
-	public Honey findBytype_Last(
+	public Honey findByType_Last(
 			String type,
 			com.liferay.portal.kernel.util.OrderByComparator<Honey>
 				orderByComparator)
@@ -148,7 +148,7 @@ public interface HoneyPersistence extends BasePersistence<Honey> {
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the last matching honey, or <code>null</code> if a matching honey could not be found
 	 */
-	public Honey fetchBytype_Last(
+	public Honey fetchByType_Last(
 		String type,
 		com.liferay.portal.kernel.util.OrderByComparator<Honey>
 			orderByComparator);
@@ -162,7 +162,7 @@ public interface HoneyPersistence extends BasePersistence<Honey> {
 	 * @return the previous, current, and next honey
 	 * @throws NoSuchHoneyException if a honey with the primary key could not be found
 	 */
-	public Honey[] findBytype_PrevAndNext(
+	public Honey[] findByType_PrevAndNext(
 			long id, String type,
 			com.liferay.portal.kernel.util.OrderByComparator<Honey>
 				orderByComparator)
@@ -173,7 +173,7 @@ public interface HoneyPersistence extends BasePersistence<Honey> {
 	 *
 	 * @param type the type
 	 */
-	public void removeBytype(String type);
+	public void removeByType(String type);
 
 	/**
 	 * Returns the number of honeys where type = &#63;.
@@ -181,141 +181,41 @@ public interface HoneyPersistence extends BasePersistence<Honey> {
 	 * @param type the type
 	 * @return the number of matching honeys
 	 */
-	public int countBytype(String type);
+	public int countByType(String type);
 
 	/**
-	 * Returns all the honeys where price = &#63;.
+	 * Returns the honey where price = &#63; or throws a <code>NoSuchHoneyException</code> if it could not be found.
 	 *
 	 * @param price the price
-	 * @return the matching honeys
+	 * @return the matching honey
+	 * @throws NoSuchHoneyException if a matching honey could not be found
 	 */
-	public java.util.List<Honey> findByprice(int price);
+	public Honey findByPrice(int price) throws NoSuchHoneyException;
 
 	/**
-	 * Returns a range of all the honeys where price = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>HoneyModelImpl</code>.
-	 * </p>
+	 * Returns the honey where price = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
 	 *
 	 * @param price the price
-	 * @param start the lower bound of the range of honeys
-	 * @param end the upper bound of the range of honeys (not inclusive)
-	 * @return the range of matching honeys
+	 * @return the matching honey, or <code>null</code> if a matching honey could not be found
 	 */
-	public java.util.List<Honey> findByprice(int price, int start, int end);
+	public Honey fetchByPrice(int price);
 
 	/**
-	 * Returns an ordered range of all the honeys where price = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>HoneyModelImpl</code>.
-	 * </p>
+	 * Returns the honey where price = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
 	 *
 	 * @param price the price
-	 * @param start the lower bound of the range of honeys
-	 * @param end the upper bound of the range of honeys (not inclusive)
-	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-	 * @return the ordered range of matching honeys
-	 */
-	public java.util.List<Honey> findByprice(
-		int price, int start, int end,
-		com.liferay.portal.kernel.util.OrderByComparator<Honey>
-			orderByComparator);
-
-	/**
-	 * Returns an ordered range of all the honeys where price = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>HoneyModelImpl</code>.
-	 * </p>
-	 *
-	 * @param price the price
-	 * @param start the lower bound of the range of honeys
-	 * @param end the upper bound of the range of honeys (not inclusive)
-	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @param useFinderCache whether to use the finder cache
-	 * @return the ordered range of matching honeys
+	 * @return the matching honey, or <code>null</code> if a matching honey could not be found
 	 */
-	public java.util.List<Honey> findByprice(
-		int price, int start, int end,
-		com.liferay.portal.kernel.util.OrderByComparator<Honey>
-			orderByComparator,
-		boolean useFinderCache);
+	public Honey fetchByPrice(int price, boolean useFinderCache);
 
 	/**
-	 * Returns the first honey in the ordered set where price = &#63;.
+	 * Removes the honey where price = &#63; from the database.
 	 *
 	 * @param price the price
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the first matching honey
-	 * @throws NoSuchHoneyException if a matching honey could not be found
+	 * @return the honey that was removed
 	 */
-	public Honey findByprice_First(
-			int price,
-			com.liferay.portal.kernel.util.OrderByComparator<Honey>
-				orderByComparator)
-		throws NoSuchHoneyException;
-
-	/**
-	 * Returns the first honey in the ordered set where price = &#63;.
-	 *
-	 * @param price the price
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the first matching honey, or <code>null</code> if a matching honey could not be found
-	 */
-	public Honey fetchByprice_First(
-		int price,
-		com.liferay.portal.kernel.util.OrderByComparator<Honey>
-			orderByComparator);
-
-	/**
-	 * Returns the last honey in the ordered set where price = &#63;.
-	 *
-	 * @param price the price
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the last matching honey
-	 * @throws NoSuchHoneyException if a matching honey could not be found
-	 */
-	public Honey findByprice_Last(
-			int price,
-			com.liferay.portal.kernel.util.OrderByComparator<Honey>
-				orderByComparator)
-		throws NoSuchHoneyException;
-
-	/**
-	 * Returns the last honey in the ordered set where price = &#63;.
-	 *
-	 * @param price the price
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the last matching honey, or <code>null</code> if a matching honey could not be found
-	 */
-	public Honey fetchByprice_Last(
-		int price,
-		com.liferay.portal.kernel.util.OrderByComparator<Honey>
-			orderByComparator);
-
-	/**
-	 * Returns the honeys before and after the current honey in the ordered set where price = &#63;.
-	 *
-	 * @param id the primary key of the current honey
-	 * @param price the price
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the previous, current, and next honey
-	 * @throws NoSuchHoneyException if a honey with the primary key could not be found
-	 */
-	public Honey[] findByprice_PrevAndNext(
-			long id, int price,
-			com.liferay.portal.kernel.util.OrderByComparator<Honey>
-				orderByComparator)
-		throws NoSuchHoneyException;
-
-	/**
-	 * Removes all the honeys where price = &#63; from the database.
-	 *
-	 * @param price the price
-	 */
-	public void removeByprice(int price);
+	public Honey removeByPrice(int price) throws NoSuchHoneyException;
 
 	/**
 	 * Returns the number of honeys where price = &#63;.
@@ -323,7 +223,7 @@ public interface HoneyPersistence extends BasePersistence<Honey> {
 	 * @param price the price
 	 * @return the number of matching honeys
 	 */
-	public int countByprice(int price);
+	public int countByPrice(int price);
 
 	/**
 	 * Caches the honey in the entity cache if it is enabled.

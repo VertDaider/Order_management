@@ -42,12 +42,56 @@ public interface OrderInfoPersistence extends BasePersistence<OrderInfo> {
 	 */
 
 	/**
+	 * Returns the order info where orderid = &#63; or throws a <code>NoSuchOrderInfoException</code> if it could not be found.
+	 *
+	 * @param orderid the orderid
+	 * @return the matching order info
+	 * @throws NoSuchOrderInfoException if a matching order info could not be found
+	 */
+	public OrderInfo findByOrderid(long orderid)
+		throws NoSuchOrderInfoException;
+
+	/**
+	 * Returns the order info where orderid = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+	 *
+	 * @param orderid the orderid
+	 * @return the matching order info, or <code>null</code> if a matching order info could not be found
+	 */
+	public OrderInfo fetchByOrderid(long orderid);
+
+	/**
+	 * Returns the order info where orderid = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+	 *
+	 * @param orderid the orderid
+	 * @param useFinderCache whether to use the finder cache
+	 * @return the matching order info, or <code>null</code> if a matching order info could not be found
+	 */
+	public OrderInfo fetchByOrderid(long orderid, boolean useFinderCache);
+
+	/**
+	 * Removes the order info where orderid = &#63; from the database.
+	 *
+	 * @param orderid the orderid
+	 * @return the order info that was removed
+	 */
+	public OrderInfo removeByOrderid(long orderid)
+		throws NoSuchOrderInfoException;
+
+	/**
+	 * Returns the number of order infos where orderid = &#63;.
+	 *
+	 * @param orderid the orderid
+	 * @return the number of matching order infos
+	 */
+	public int countByOrderid(long orderid);
+
+	/**
 	 * Returns all the order infos where orderid = &#63;.
 	 *
 	 * @param orderid the orderid
 	 * @return the matching order infos
 	 */
-	public java.util.List<OrderInfo> findByorderid(long orderid);
+	public java.util.List<OrderInfo> findByOrder(long orderid);
 
 	/**
 	 * Returns a range of all the order infos where orderid = &#63;.
@@ -61,7 +105,7 @@ public interface OrderInfoPersistence extends BasePersistence<OrderInfo> {
 	 * @param end the upper bound of the range of order infos (not inclusive)
 	 * @return the range of matching order infos
 	 */
-	public java.util.List<OrderInfo> findByorderid(
+	public java.util.List<OrderInfo> findByOrder(
 		long orderid, int start, int end);
 
 	/**
@@ -77,7 +121,7 @@ public interface OrderInfoPersistence extends BasePersistence<OrderInfo> {
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching order infos
 	 */
-	public java.util.List<OrderInfo> findByorderid(
+	public java.util.List<OrderInfo> findByOrder(
 		long orderid, int start, int end,
 		com.liferay.portal.kernel.util.OrderByComparator<OrderInfo>
 			orderByComparator);
@@ -96,7 +140,7 @@ public interface OrderInfoPersistence extends BasePersistence<OrderInfo> {
 	 * @param useFinderCache whether to use the finder cache
 	 * @return the ordered range of matching order infos
 	 */
-	public java.util.List<OrderInfo> findByorderid(
+	public java.util.List<OrderInfo> findByOrder(
 		long orderid, int start, int end,
 		com.liferay.portal.kernel.util.OrderByComparator<OrderInfo>
 			orderByComparator,
@@ -110,7 +154,7 @@ public interface OrderInfoPersistence extends BasePersistence<OrderInfo> {
 	 * @return the first matching order info
 	 * @throws NoSuchOrderInfoException if a matching order info could not be found
 	 */
-	public OrderInfo findByorderid_First(
+	public OrderInfo findByOrder_First(
 			long orderid,
 			com.liferay.portal.kernel.util.OrderByComparator<OrderInfo>
 				orderByComparator)
@@ -123,7 +167,7 @@ public interface OrderInfoPersistence extends BasePersistence<OrderInfo> {
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the first matching order info, or <code>null</code> if a matching order info could not be found
 	 */
-	public OrderInfo fetchByorderid_First(
+	public OrderInfo fetchByOrder_First(
 		long orderid,
 		com.liferay.portal.kernel.util.OrderByComparator<OrderInfo>
 			orderByComparator);
@@ -136,7 +180,7 @@ public interface OrderInfoPersistence extends BasePersistence<OrderInfo> {
 	 * @return the last matching order info
 	 * @throws NoSuchOrderInfoException if a matching order info could not be found
 	 */
-	public OrderInfo findByorderid_Last(
+	public OrderInfo findByOrder_Last(
 			long orderid,
 			com.liferay.portal.kernel.util.OrderByComparator<OrderInfo>
 				orderByComparator)
@@ -149,7 +193,7 @@ public interface OrderInfoPersistence extends BasePersistence<OrderInfo> {
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the last matching order info, or <code>null</code> if a matching order info could not be found
 	 */
-	public OrderInfo fetchByorderid_Last(
+	public OrderInfo fetchByOrder_Last(
 		long orderid,
 		com.liferay.portal.kernel.util.OrderByComparator<OrderInfo>
 			orderByComparator);
@@ -163,7 +207,7 @@ public interface OrderInfoPersistence extends BasePersistence<OrderInfo> {
 	 * @return the previous, current, and next order info
 	 * @throws NoSuchOrderInfoException if a order info with the primary key could not be found
 	 */
-	public OrderInfo[] findByorderid_PrevAndNext(
+	public OrderInfo[] findByOrder_PrevAndNext(
 			long id, long orderid,
 			com.liferay.portal.kernel.util.OrderByComparator<OrderInfo>
 				orderByComparator)
@@ -174,7 +218,7 @@ public interface OrderInfoPersistence extends BasePersistence<OrderInfo> {
 	 *
 	 * @param orderid the orderid
 	 */
-	public void removeByorderid(long orderid);
+	public void removeByOrder(long orderid);
 
 	/**
 	 * Returns the number of order infos where orderid = &#63;.
@@ -182,7 +226,7 @@ public interface OrderInfoPersistence extends BasePersistence<OrderInfo> {
 	 * @param orderid the orderid
 	 * @return the number of matching order infos
 	 */
-	public int countByorderid(long orderid);
+	public int countByOrder(long orderid);
 
 	/**
 	 * Caches the order info in the entity cache if it is enabled.

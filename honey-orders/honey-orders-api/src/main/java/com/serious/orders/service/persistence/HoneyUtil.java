@@ -126,8 +126,8 @@ public class HoneyUtil {
 	 * @param type the type
 	 * @return the matching honeys
 	 */
-	public static List<Honey> findBytype(String type) {
-		return getPersistence().findBytype(type);
+	public static List<Honey> findByType(String type) {
+		return getPersistence().findByType(type);
 	}
 
 	/**
@@ -142,8 +142,8 @@ public class HoneyUtil {
 	 * @param end the upper bound of the range of honeys (not inclusive)
 	 * @return the range of matching honeys
 	 */
-	public static List<Honey> findBytype(String type, int start, int end) {
-		return getPersistence().findBytype(type, start, end);
+	public static List<Honey> findByType(String type, int start, int end) {
+		return getPersistence().findByType(type, start, end);
 	}
 
 	/**
@@ -159,11 +159,11 @@ public class HoneyUtil {
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching honeys
 	 */
-	public static List<Honey> findBytype(
+	public static List<Honey> findByType(
 		String type, int start, int end,
 		OrderByComparator<Honey> orderByComparator) {
 
-		return getPersistence().findBytype(type, start, end, orderByComparator);
+		return getPersistence().findByType(type, start, end, orderByComparator);
 	}
 
 	/**
@@ -180,11 +180,11 @@ public class HoneyUtil {
 	 * @param useFinderCache whether to use the finder cache
 	 * @return the ordered range of matching honeys
 	 */
-	public static List<Honey> findBytype(
+	public static List<Honey> findByType(
 		String type, int start, int end,
 		OrderByComparator<Honey> orderByComparator, boolean useFinderCache) {
 
-		return getPersistence().findBytype(
+		return getPersistence().findByType(
 			type, start, end, orderByComparator, useFinderCache);
 	}
 
@@ -196,11 +196,11 @@ public class HoneyUtil {
 	 * @return the first matching honey
 	 * @throws NoSuchHoneyException if a matching honey could not be found
 	 */
-	public static Honey findBytype_First(
+	public static Honey findByType_First(
 			String type, OrderByComparator<Honey> orderByComparator)
 		throws com.serious.orders.exception.NoSuchHoneyException {
 
-		return getPersistence().findBytype_First(type, orderByComparator);
+		return getPersistence().findByType_First(type, orderByComparator);
 	}
 
 	/**
@@ -210,10 +210,10 @@ public class HoneyUtil {
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the first matching honey, or <code>null</code> if a matching honey could not be found
 	 */
-	public static Honey fetchBytype_First(
+	public static Honey fetchByType_First(
 		String type, OrderByComparator<Honey> orderByComparator) {
 
-		return getPersistence().fetchBytype_First(type, orderByComparator);
+		return getPersistence().fetchByType_First(type, orderByComparator);
 	}
 
 	/**
@@ -224,11 +224,11 @@ public class HoneyUtil {
 	 * @return the last matching honey
 	 * @throws NoSuchHoneyException if a matching honey could not be found
 	 */
-	public static Honey findBytype_Last(
+	public static Honey findByType_Last(
 			String type, OrderByComparator<Honey> orderByComparator)
 		throws com.serious.orders.exception.NoSuchHoneyException {
 
-		return getPersistence().findBytype_Last(type, orderByComparator);
+		return getPersistence().findByType_Last(type, orderByComparator);
 	}
 
 	/**
@@ -238,10 +238,10 @@ public class HoneyUtil {
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the last matching honey, or <code>null</code> if a matching honey could not be found
 	 */
-	public static Honey fetchBytype_Last(
+	public static Honey fetchByType_Last(
 		String type, OrderByComparator<Honey> orderByComparator) {
 
-		return getPersistence().fetchBytype_Last(type, orderByComparator);
+		return getPersistence().fetchByType_Last(type, orderByComparator);
 	}
 
 	/**
@@ -253,11 +253,11 @@ public class HoneyUtil {
 	 * @return the previous, current, and next honey
 	 * @throws NoSuchHoneyException if a honey with the primary key could not be found
 	 */
-	public static Honey[] findBytype_PrevAndNext(
+	public static Honey[] findByType_PrevAndNext(
 			long id, String type, OrderByComparator<Honey> orderByComparator)
 		throws com.serious.orders.exception.NoSuchHoneyException {
 
-		return getPersistence().findBytype_PrevAndNext(
+		return getPersistence().findByType_PrevAndNext(
 			id, type, orderByComparator);
 	}
 
@@ -266,8 +266,8 @@ public class HoneyUtil {
 	 *
 	 * @param type the type
 	 */
-	public static void removeBytype(String type) {
-		getPersistence().removeBytype(type);
+	public static void removeByType(String type) {
+		getPersistence().removeByType(type);
 	}
 
 	/**
@@ -276,159 +276,54 @@ public class HoneyUtil {
 	 * @param type the type
 	 * @return the number of matching honeys
 	 */
-	public static int countBytype(String type) {
-		return getPersistence().countBytype(type);
+	public static int countByType(String type) {
+		return getPersistence().countByType(type);
 	}
 
 	/**
-	 * Returns all the honeys where price = &#63;.
+	 * Returns the honey where price = &#63; or throws a <code>NoSuchHoneyException</code> if it could not be found.
 	 *
 	 * @param price the price
-	 * @return the matching honeys
+	 * @return the matching honey
+	 * @throws NoSuchHoneyException if a matching honey could not be found
 	 */
-	public static List<Honey> findByprice(int price) {
-		return getPersistence().findByprice(price);
+	public static Honey findByPrice(int price)
+		throws com.serious.orders.exception.NoSuchHoneyException {
+
+		return getPersistence().findByPrice(price);
 	}
 
 	/**
-	 * Returns a range of all the honeys where price = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>HoneyModelImpl</code>.
-	 * </p>
+	 * Returns the honey where price = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
 	 *
 	 * @param price the price
-	 * @param start the lower bound of the range of honeys
-	 * @param end the upper bound of the range of honeys (not inclusive)
-	 * @return the range of matching honeys
+	 * @return the matching honey, or <code>null</code> if a matching honey could not be found
 	 */
-	public static List<Honey> findByprice(int price, int start, int end) {
-		return getPersistence().findByprice(price, start, end);
+	public static Honey fetchByPrice(int price) {
+		return getPersistence().fetchByPrice(price);
 	}
 
 	/**
-	 * Returns an ordered range of all the honeys where price = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>HoneyModelImpl</code>.
-	 * </p>
+	 * Returns the honey where price = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
 	 *
 	 * @param price the price
-	 * @param start the lower bound of the range of honeys
-	 * @param end the upper bound of the range of honeys (not inclusive)
-	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-	 * @return the ordered range of matching honeys
-	 */
-	public static List<Honey> findByprice(
-		int price, int start, int end,
-		OrderByComparator<Honey> orderByComparator) {
-
-		return getPersistence().findByprice(
-			price, start, end, orderByComparator);
-	}
-
-	/**
-	 * Returns an ordered range of all the honeys where price = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>HoneyModelImpl</code>.
-	 * </p>
-	 *
-	 * @param price the price
-	 * @param start the lower bound of the range of honeys
-	 * @param end the upper bound of the range of honeys (not inclusive)
-	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @param useFinderCache whether to use the finder cache
-	 * @return the ordered range of matching honeys
+	 * @return the matching honey, or <code>null</code> if a matching honey could not be found
 	 */
-	public static List<Honey> findByprice(
-		int price, int start, int end,
-		OrderByComparator<Honey> orderByComparator, boolean useFinderCache) {
-
-		return getPersistence().findByprice(
-			price, start, end, orderByComparator, useFinderCache);
+	public static Honey fetchByPrice(int price, boolean useFinderCache) {
+		return getPersistence().fetchByPrice(price, useFinderCache);
 	}
 
 	/**
-	 * Returns the first honey in the ordered set where price = &#63;.
+	 * Removes the honey where price = &#63; from the database.
 	 *
 	 * @param price the price
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the first matching honey
-	 * @throws NoSuchHoneyException if a matching honey could not be found
+	 * @return the honey that was removed
 	 */
-	public static Honey findByprice_First(
-			int price, OrderByComparator<Honey> orderByComparator)
+	public static Honey removeByPrice(int price)
 		throws com.serious.orders.exception.NoSuchHoneyException {
 
-		return getPersistence().findByprice_First(price, orderByComparator);
-	}
-
-	/**
-	 * Returns the first honey in the ordered set where price = &#63;.
-	 *
-	 * @param price the price
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the first matching honey, or <code>null</code> if a matching honey could not be found
-	 */
-	public static Honey fetchByprice_First(
-		int price, OrderByComparator<Honey> orderByComparator) {
-
-		return getPersistence().fetchByprice_First(price, orderByComparator);
-	}
-
-	/**
-	 * Returns the last honey in the ordered set where price = &#63;.
-	 *
-	 * @param price the price
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the last matching honey
-	 * @throws NoSuchHoneyException if a matching honey could not be found
-	 */
-	public static Honey findByprice_Last(
-			int price, OrderByComparator<Honey> orderByComparator)
-		throws com.serious.orders.exception.NoSuchHoneyException {
-
-		return getPersistence().findByprice_Last(price, orderByComparator);
-	}
-
-	/**
-	 * Returns the last honey in the ordered set where price = &#63;.
-	 *
-	 * @param price the price
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the last matching honey, or <code>null</code> if a matching honey could not be found
-	 */
-	public static Honey fetchByprice_Last(
-		int price, OrderByComparator<Honey> orderByComparator) {
-
-		return getPersistence().fetchByprice_Last(price, orderByComparator);
-	}
-
-	/**
-	 * Returns the honeys before and after the current honey in the ordered set where price = &#63;.
-	 *
-	 * @param id the primary key of the current honey
-	 * @param price the price
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the previous, current, and next honey
-	 * @throws NoSuchHoneyException if a honey with the primary key could not be found
-	 */
-	public static Honey[] findByprice_PrevAndNext(
-			long id, int price, OrderByComparator<Honey> orderByComparator)
-		throws com.serious.orders.exception.NoSuchHoneyException {
-
-		return getPersistence().findByprice_PrevAndNext(
-			id, price, orderByComparator);
-	}
-
-	/**
-	 * Removes all the honeys where price = &#63; from the database.
-	 *
-	 * @param price the price
-	 */
-	public static void removeByprice(int price) {
-		getPersistence().removeByprice(price);
+		return getPersistence().removeByPrice(price);
 	}
 
 	/**
@@ -437,8 +332,8 @@ public class HoneyUtil {
 	 * @param price the price
 	 * @return the number of matching honeys
 	 */
-	public static int countByprice(int price) {
-		return getPersistence().countByprice(price);
+	public static int countByPrice(int price) {
+		return getPersistence().countByPrice(price);
 	}
 
 	/**
