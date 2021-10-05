@@ -39,8 +39,31 @@
         <liferay-ui:search-container-column-text name="Сорт" value="<%=String.valueOf(type)%>"/>
         <liferay-ui:search-container-column-text name="Количество" property="amount"/>
         <liferay-ui:search-container-column-text name="Сумма" value="<%=String.valueOf(sum)%>"/>
+        <liferay-ui:search-container-column-text>
+            <liferay-ui:icon-menu direction="left-side" icon="list"	markupView="lexicon" message="" showWhenSingleIcon="true">
+
+                <portlet:renderURL var="editInfoURL">
+                    <portlet:param name="mvcPath" value="info_order/edit.jsp"/>
+                    <portlet:param name="OrderInfoId" value="<%=String.valueOf(info.getId())%>"/>
+                </portlet:renderURL>
+                <liferay-ui:icon icon="pencil" markupView="lexicon" message="action.edit" url="${editInfoURL}"/>
+<%--                <todo> реализовать методы--%>
+                <portlet:actionURL name="deleteRecInfo" var="delInfoURL">
+                    <portlet:param name="mvcPath" value="info_order/view.jsp"/>
+                    <portlet:param name="OrderInfoId" value="<%=String.valueOf(info.getId())%>"/>
+                </portlet:actionURL>
+                <liferay-ui:icon-delete showIcon="true" message="action.delete" url="${delInfoURL}" confirmation = "action.confirm"/>
+
+            </liferay-ui:icon-menu>
+        </liferay-ui:search-container-column-text>
     </liferay-ui:search-container-row>
     <liferay-ui:search-iterator markupView="lexicon"/>
 </liferay-ui:search-container>
 
-<%--todo    кнопка назад--%>
+<portlet:renderURL var="viewURL">
+    <portlet:param name="mvcPath" value="/view.jsp"/>
+</portlet:renderURL>
+
+<aui:button-row>
+    <aui:button type="cancel" value="Назад" href="${viewURL}"/>
+</aui:button-row>

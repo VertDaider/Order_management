@@ -213,6 +213,13 @@ public class OrderInfoLocalServiceWrapper
 	}
 
 	@Override
+	public java.util.List<com.serious.orders.model.OrderInfo> findByOrder(
+		long orderId) {
+
+		return _orderInfoLocalService.findByOrder(orderId);
+	}
+
+	@Override
 	public com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery
 		getActionableDynamicQuery() {
 

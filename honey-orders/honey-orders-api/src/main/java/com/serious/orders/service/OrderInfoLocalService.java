@@ -193,6 +193,8 @@ public interface OrderInfoLocalService
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public OrderInfo fetchOrderInfo(long id);
 
+	public List<OrderInfo> findByOrder(long orderId);
+
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public ActionableDynamicQuery getActionableDynamicQuery();
 

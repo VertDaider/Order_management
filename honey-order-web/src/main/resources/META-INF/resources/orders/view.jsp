@@ -3,6 +3,15 @@
 <%@ page import="com.serious.orders.service.OrderLocalServiceUtil" %>
 <%@ page import="java.text.SimpleDateFormat" %>
 <%@ page import="com.serious.util.StatusKeys" %>
+<%@ page import="com.serious.orders.model.OrderInfo" %>
+<%@ page import="com.serious.orders.service.persistence.OrderInfoUtil" %>
+
+<%@ page import="com.serious.orders.service.HoneyLocalServiceUtil" %>
+<%@ page import="java.util.concurrent.atomic.AtomicInteger" %>
+<%@ page import="com.liferay.portal.kernel.log.Log" %>
+<%@ page import="com.liferay.portal.kernel.log.LogFactory" %>
+<%@ page import="com.liferay.portal.kernel.log.LogFactoryUtil" %>
+<%@ page import="com.serious.orders.service.OrderInfoLocalServiceUtil" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 
 <%@ include file="/init.jsp" %>
@@ -10,6 +19,7 @@
 <%
     SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
     List<Order> ordersList = OrderLocalServiceUtil.getOrders(0, OrderLocalServiceUtil.getOrdersCount());
+    Log log = LogFactoryUtil.getLog("/orders/view.jsp");
 %>
 
 <portlet:renderURL var="addOrder">
@@ -29,6 +39,16 @@
         <liferay-ui:search-container-column-text name="Номер заказа" property="id"/>
         <liferay-ui:search-container-column-text name="Дата заказа" value="<%=sdf.format(order.getDateOrder())%>"/>
         <liferay-ui:search-container-column-text name="Заказчик" property="customer"/>
+        <%
+            AtomicInteger sumOrder = new AtomicInteger();
+           List<OrderInfo> infoList = OrderInfoLocalServiceUtil.findByOrder(order.getId());
+            infoList.forEach(item -> {
+                long type = item.getType();
+                int price = HoneyLocalServiceUtil.fetchHoney(type).getPrice();
+                sumOrder.addAndGet(item.getAmount() * price);
+            });
+        %>
+        <liferay-ui:search-container-column-text name="Итоговая сумма" value="<%= String.valueOf(sumOrder) %>"/>
         <liferay-ui:search-container-column-text name="Статус заказа" value="<%=StatusKeys.getTextOnInt(order.getStatus())%>"/>
         <liferay-ui:search-container-column-text>
 

@@ -199,6 +199,10 @@ public class OrderInfoLocalServiceUtil {
 		return getService().fetchOrderInfo(id);
 	}
 
+	public static List<OrderInfo> findByOrder(long orderId) {
+		return getService().findByOrder(orderId);
+	}
+
 	public static com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery
 		getActionableDynamicQuery() {
 

@@ -16,9 +16,14 @@ package com.serious.orders.service.impl;
 
 import com.liferay.portal.aop.AopService;
 
+import com.serious.orders.model.OrderInfo;
 import com.serious.orders.service.base.OrderInfoLocalServiceBaseImpl;
 
+import com.serious.orders.service.persistence.OrderInfoUtil;
 import org.osgi.service.component.annotations.Component;
+
+import java.util.Collections;
+import java.util.List;
 
 /**
  * The implementation of the order info local service.
@@ -44,4 +49,15 @@ public class OrderInfoLocalServiceImpl extends OrderInfoLocalServiceBaseImpl {
 	 *
 	 * Never reference this class directly. Use <code>com.serious.orders.service.OrderInfoLocalService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>com.serious.orders.service.OrderInfoLocalServiceUtil</code>.
 	 */
+	public List<OrderInfo> findByOrder(long orderId) {
+		List<OrderInfo> result = Collections.emptyList();
+
+		try{
+			result=orderInfoPersistence.findByOrder(orderId);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+
+		return result;
+	}
 }
