@@ -126,7 +126,7 @@ public class AppOrderPortlet extends MVCPortlet {
         OrderLocalServiceUtil.updateOrder(order);
     }
 
-    public void editInfo(ActionRequest request, ActionResponse response) throws PortalException, IOException {
+    public void editInfo(ActionRequest request, ActionResponse response) throws PortalException {
         long orderInfoId = ParamUtil.getLong(request, "orderInfoId");
         OrderInfo orderInfo = OrderInfoLocalServiceUtil.getOrderInfo(orderInfoId);
         int type = ParamUtil.getInteger(request, "type");
@@ -135,5 +135,10 @@ public class AppOrderPortlet extends MVCPortlet {
         orderInfo.setType(type);
         OrderInfoLocalServiceUtil.updateOrderInfo(orderInfo);
 
+    }
+
+    public void deleteRecInfo(ActionRequest request, ActionResponse response) throws PortalException, IOException {
+        long orderInfoId = ParamUtil.getLong(request, "orderInfoId");
+        OrderInfoLocalServiceUtil.deleteOrderInfo(orderInfoId);
     }
 }

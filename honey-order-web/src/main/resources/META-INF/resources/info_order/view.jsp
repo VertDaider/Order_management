@@ -47,9 +47,9 @@
                     <portlet:param name="OrderInfoId" value="<%=String.valueOf(info.getId())%>"/>
                 </portlet:renderURL>
                 <liferay-ui:icon icon="pencil" markupView="lexicon" message="action.edit" url="${editInfoURL}"/>
-<%--                <todo> реализовать методы--%>
                 <portlet:actionURL name="deleteRecInfo" var="delInfoURL">
                     <portlet:param name="mvcPath" value="/info_order/view.jsp"/>
+                    <portlet:param name="orderId" value="<%=String.valueOf(orderId)%>"/>
                     <portlet:param name="OrderInfoId" value="<%=String.valueOf(info.getId())%>"/>
                 </portlet:actionURL>
                 <liferay-ui:icon-delete showIcon="true" message="action.delete" url="${delInfoURL}" confirmation = "action.confirm"/>
