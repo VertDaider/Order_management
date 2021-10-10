@@ -18,7 +18,7 @@
 <aui:form action="${editHoneyURL}" name="fm">
     <aui:model-context bean="<%= honey %>" model="<%= Honey.class%>"/>
 
-    <aui:input name="type" label="Тип" type="text" cssClass="add">
+    <aui:input name="type" label="Сорт" type="text" cssClass="add">
         <aui:validator errorMessage="errorInputMessage" name="required" />
     </aui:input>
     <aui:input name="price" label="Цена" type="number" cssClass="add">

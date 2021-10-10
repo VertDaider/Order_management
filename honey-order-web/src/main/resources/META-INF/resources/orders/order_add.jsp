@@ -34,11 +34,13 @@
                         <%
                             List<Honey> list = HoneyLocalServiceUtil.getHoneys(0, HoneyLocalServiceUtil.getHoneysCount());
                             for (Honey h : list) {
+                                if (h.isStock()) {
                         %>
                         <aui:option value="<%=h.getId()%>">
                             <%=h.getType()%>
                         </aui:option>
                         <%
+                            }
                             }
                         %>
                     </aui:select>

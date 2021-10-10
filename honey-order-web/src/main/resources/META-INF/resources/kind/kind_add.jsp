@@ -24,7 +24,7 @@
     <aui:input name="price" label="Цена" type="number" cssClass="add">
         <aui:validator errorMessage="errorInputMessageDigit" name="required" />
     </aui:input>
-    <aui:input name="stock" label="stock" type="checkbox"/>
+    <aui:input name="stock" label="stock" type="checkbox" checked="true"/>
 
     <aui:button-row>
         <aui:button type="submit"/>

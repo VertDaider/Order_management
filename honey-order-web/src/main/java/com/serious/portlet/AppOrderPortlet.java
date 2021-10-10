@@ -24,6 +24,7 @@ import com.serious.orders.service.OrderInfoLocalServiceUtil;
 import com.serious.orders.service.OrderLocalServiceUtil;
 import org.osgi.service.component.annotations.Component;
 
+import java.io.IOException;
 import java.util.Date;
 
 /**
@@ -58,7 +59,7 @@ public class AppOrderPortlet extends MVCPortlet {
     public void addHoney(ActionRequest request, ActionResponse response) throws PortalException {
         ServiceContext serviceContext = ServiceContextFactory.getInstance(Honey.class.getName(), request);
 
-        String kind = ParamUtil.getString(request, "type");
+        String type = ParamUtil.getString(request, "type");
         int price = ParamUtil.getInteger(request, "price");
         boolean isStock = ParamUtil.getBoolean(request, "stock", false);
 
@@ -66,7 +67,7 @@ public class AppOrderPortlet extends MVCPortlet {
         Honey honey = HoneyLocalServiceUtil.createHoney(honeyId);
         honey.setStock(isStock);
         honey.setPrice(price);
-        honey.setType(kind);
+        honey.setType(type);
         HoneyLocalServiceUtil.updateHoney(honey);
     }
 
@@ -123,5 +124,16 @@ public class AppOrderPortlet extends MVCPortlet {
         Order order = OrderLocalServiceUtil.getOrder(orderId);
         order.setStatus(status);
         OrderLocalServiceUtil.updateOrder(order);
+    }
+
+    public void editInfo(ActionRequest request, ActionResponse response) throws PortalException, IOException {
+        long orderInfoId = ParamUtil.getLong(request, "orderInfoId");
+        OrderInfo orderInfo = OrderInfoLocalServiceUtil.getOrderInfo(orderInfoId);
+        int type = ParamUtil.getInteger(request, "type");
+        int amount = ParamUtil.getInteger(request, "amount");
+        orderInfo.setAmount(amount);
+        orderInfo.setType(type);
+        OrderInfoLocalServiceUtil.updateOrderInfo(orderInfo);
+
     }
 }
