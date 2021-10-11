@@ -98,6 +98,7 @@ public class AppOrderPortlet extends MVCPortlet {
     public void addOrder(ActionRequest request, ActionResponse response) throws PortalException {
         String address = ParamUtil.getString(request, "address");
         String customer = ParamUtil.getString(request, "customer");
+        // TODO: 11.10.2021 доработать добавление заказа
         int type = ParamUtil.getInteger(request, "type");
         int count = ParamUtil.getInteger(request, "count");
 
@@ -129,12 +130,26 @@ public class AppOrderPortlet extends MVCPortlet {
     public void editInfo(ActionRequest request, ActionResponse response) throws PortalException {
         long orderInfoId = ParamUtil.getLong(request, "orderInfoId");
         OrderInfo orderInfo = OrderInfoLocalServiceUtil.getOrderInfo(orderInfoId);
-        int type = ParamUtil.getInteger(request, "type");
-        int amount = ParamUtil.getInteger(request, "amount");
-        orderInfo.setAmount(amount);
-        orderInfo.setType(type);
-        OrderInfoLocalServiceUtil.updateOrderInfo(orderInfo);
+        long orderId = orderInfo.getOrderid();
 
+        int[] types = ParamUtil.getIntegerValues(request, "type");
+        int[] counts = ParamUtil.getIntegerValues(request, "amount");
+
+        orderInfo.setAmount(counts[0]);
+        orderInfo.setType(types[0]);
+        OrderInfoLocalServiceUtil.updateOrderInfo(orderInfo);
+        if (types.length > 1) {
+            for (int i = 1; i < types.length; i++) {
+                // TODO: 11.10.2021 что то с инкрементом подумать
+                orderInfoId = CounterLocalServiceUtil.increment();
+                orderInfo = OrderInfoLocalServiceUtil.createOrderInfo(orderInfoId);
+
+                orderInfo.setAmount(counts[i]);
+                orderInfo.setOrderid(orderId);
+                orderInfo.setType(orderId);
+                OrderInfoLocalServiceUtil.updateOrderInfo(orderInfo);
+            }
+        }
     }
 
     public void deleteRecInfo(ActionRequest request, ActionResponse response) throws PortalException, IOException {

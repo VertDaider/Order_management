@@ -7,10 +7,11 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 
 <%@ include file="/init.jsp" %>
-
 <%
     long orderInfoId = ParamUtil.getLong(request, "OrderInfoId");
     OrderInfo orderInfo = OrderInfoLocalServiceUtil.getOrderInfo(orderInfoId);
+    // TODO: 11.10.2021 спросить у пользователя
+    final int COUNT_TYPES = 3;
 %>
 
 <portlet:actionURL name="editInfo" var="editInfoURL">
@@ -23,8 +24,11 @@
     <aui:model-context bean="<%= orderInfo %>" model="<%= OrderInfo.class%>"/>
 
     <aui:fieldset>
+        <%
+            for (int i = 0; i < COUNT_TYPES; i++) {
+        %>
         <aui:row>
-            <aui:col width="50">
+            <aui:col width="50" >
                 <aui:select label="Сорт" name="type" cssClass="add">
                     <%
                         List<Honey> list = HoneyLocalServiceUtil.getHoneys(0, HoneyLocalServiceUtil.getHoneysCount());
@@ -41,11 +45,12 @@
                 </aui:select>
             </aui:col>
             <aui:col width="50">
-                <aui:input label="Количество" name="amount" type="number" style="width: 100px;">
-                    <aui:validator name="required" errorMessage="errorInputMessageDigit"/>
-                </aui:input>
+                <aui:input label="Количество" name="amount" type="number" style="width: 100px;"/>
             </aui:col>
         </aui:row>
+        <%
+            }
+        %>
     </aui:fieldset>
 
     <portlet:renderURL var="viewURL">

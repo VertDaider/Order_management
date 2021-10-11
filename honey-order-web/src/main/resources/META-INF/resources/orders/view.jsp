@@ -40,32 +40,36 @@
         <liferay-ui:search-container-column-text name="Дата заказа" value="<%=sdf.format(order.getDateOrder())%>"/>
         <liferay-ui:search-container-column-text name="Заказчик" property="customer"/>
         <%
-            AtomicInteger sumOrder = new AtomicInteger();
-           List<OrderInfo> infoList = OrderInfoLocalServiceUtil.findByOrder(order.getId());
-            infoList.forEach(item -> {
+            int sumOrder = 0;
+            List<OrderInfo> infoList = OrderInfoLocalServiceUtil.findByOrder(order.getId());
+            for (OrderInfo item : infoList) {
                 long type = item.getType();
                 int price = HoneyLocalServiceUtil.fetchHoney(type).getPrice();
-                sumOrder.addAndGet(item.getAmount() * price);
-            });
+                sumOrder += item.getAmount() * price;
+            }
         %>
         <liferay-ui:search-container-column-text name="Итоговая сумма" value="<%= String.valueOf(sumOrder) %>"/>
-        <liferay-ui:search-container-column-text name="Статус заказа" value="<%=StatusKeys.getTextOnInt(order.getStatus())%>"/>
+        <liferay-ui:search-container-column-text name="Статус заказа"
+                                                 value="<%=StatusKeys.getTextOnInt(order.getStatus())%>"/>
         <liferay-ui:search-container-column-text>
 
-            <liferay-ui:icon-menu direction="left-side" icon="list" markupView="lexicon" message="" showWhenSingleIcon="true">
+            <liferay-ui:icon-menu direction="left-side" icon="list" markupView="lexicon" message=""
+                                  showWhenSingleIcon="true">
 
                 <portlet:renderURL var="infoOrderURL">
                     <portlet:param name="mvcPath" value="/info_order/view.jsp"/>
                     <portlet:param name="orderId" value="<%=String.valueOf(order.getId())%>"/>
                 </portlet:renderURL>
-                <liferay-ui:icon icon="info-panel-closed" markupView="lexicon" message="action.info" url="${infoOrderURL}"/>
+                <liferay-ui:icon icon="info-panel-closed" markupView="lexicon" message="action.info"
+                                 url="${infoOrderURL}"/>
 
                 <portlet:renderURL var="editStatusURL">
                     <portlet:param name="mvcPath" value="/orders/change_status.jsp"/>
                     <portlet:param name="tab" value="tabOrders"/>
                     <portlet:param name="orderId" value="<%=String.valueOf(order.getId())%>"/>
                 </portlet:renderURL>
-                <liferay-ui:icon icon="change" markupView="lexicon" message="action.change.status" url="${editStatusURL}"/>
+                <liferay-ui:icon icon="change" markupView="lexicon" message="action.change.status"
+                                 url="${editStatusURL}"/>
 
                 <portlet:renderURL var="editOrderURL">
                     <portlet:param name="mvcPath" value="/orders/edit.jsp"/>
@@ -78,7 +82,8 @@
                     <portlet:param name="tab" value="tabOrders"/>
                     <portlet:param name="orderId" value="<%=String.valueOf(order.getId())%>"/>
                 </portlet:actionURL>
-                <liferay-ui:icon-delete showIcon="true" message="action.delete" url="${delOrderURL}" confirmation="action.confirm"/>
+                <liferay-ui:icon-delete showIcon="true" message="action.delete" url="${delOrderURL}"
+                                        confirmation="action.confirm"/>
 
             </liferay-ui:icon-menu>
 
