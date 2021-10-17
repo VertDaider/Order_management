@@ -7,14 +7,13 @@ import com.liferay.portal.kernel.log.LogFactory;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextFactory;
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.serious.constants.apporderPortletKeys;
 
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 
-import javax.portlet.ActionRequest;
-import javax.portlet.ActionResponse;
-import javax.portlet.Portlet;
+import javax.portlet.*;
 
 import com.serious.orders.model.Honey;
 import com.serious.orders.model.Order;
@@ -98,9 +97,9 @@ public class AppOrderPortlet extends MVCPortlet {
     public void addOrder(ActionRequest request, ActionResponse response) throws PortalException {
         String address = ParamUtil.getString(request, "address");
         String customer = ParamUtil.getString(request, "customer");
-        // TODO: 11.10.2021 доработать добавление заказа
-        int type = ParamUtil.getInteger(request, "type");
-        int count = ParamUtil.getInteger(request, "count");
+
+        int[] types = ParamUtil.getIntegerValues(request, "type");
+        int[] counts = ParamUtil.getIntegerValues(request, "amount");
 
         long orderId = CounterLocalServiceUtil.increment();
         Order order = OrderLocalServiceUtil.createOrder(orderId);
@@ -110,13 +109,19 @@ public class AppOrderPortlet extends MVCPortlet {
         order.setStatus(1);
         OrderLocalServiceUtil.updateOrder(order);
 
-        long orderInfoId = CounterLocalServiceUtil.increment();
-        OrderInfo orderInfo = OrderInfoLocalServiceUtil.createOrderInfo(orderInfoId);
+        long orderInfoId;
+        OrderInfo orderInfo;
+        if (types.length > 0) {
+            for (int i = 0; i < types.length; i++) {
+                orderInfoId = CounterLocalServiceUtil.increment(OrderInfo.class.getName());
+                orderInfo = OrderInfoLocalServiceUtil.createOrderInfo(orderInfoId);
 
-        orderInfo.setAmount(count);
-        orderInfo.setOrderid(orderId);
-        orderInfo.setType(type);
-        OrderInfoLocalServiceUtil.updateOrderInfo(orderInfo);
+                orderInfo.setAmount(counts[i]);
+                orderInfo.setOrderid(orderId);
+                orderInfo.setType(orderId);
+                OrderInfoLocalServiceUtil.updateOrderInfo(orderInfo);
+            }
+        }
     }
 
     public void editStatusOrder(ActionRequest request, ActionResponse response) throws PortalException {
@@ -140,8 +145,7 @@ public class AppOrderPortlet extends MVCPortlet {
         OrderInfoLocalServiceUtil.updateOrderInfo(orderInfo);
         if (types.length > 1) {
             for (int i = 1; i < types.length; i++) {
-                // TODO: 11.10.2021 что то с инкрементом подумать
-                orderInfoId = CounterLocalServiceUtil.increment();
+                orderInfoId = CounterLocalServiceUtil.increment(OrderInfo.class.getName());
                 orderInfo = OrderInfoLocalServiceUtil.createOrderInfo(orderInfoId);
 
                 orderInfo.setAmount(counts[i]);
@@ -155,5 +159,17 @@ public class AppOrderPortlet extends MVCPortlet {
     public void deleteRecInfo(ActionRequest request, ActionResponse response) throws PortalException, IOException {
         long orderInfoId = ParamUtil.getLong(request, "orderInfoId");
         OrderInfoLocalServiceUtil.deleteOrderInfo(orderInfoId);
+    }
+
+    @Override
+    public void serveResource(ResourceRequest request, ResourceResponse response) throws IOException, PortletException {
+        super.serveResource(request, response);
+        // TODO: 17.10.2021 разобраться с serveResource
+        String resourceId = GetterUtil.getString(request.getResourceID());
+        if (resourceId.equals("inputCountTypes")) {
+            int count = ParamUtil.getInteger(request, "countTypes");
+            request.setAttribute("countTypes", count);
+            request.setAttribute("showQ", false);
+        }
     }
 }
