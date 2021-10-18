@@ -43,12 +43,12 @@
             <liferay-ui:icon-menu direction="left-side" icon="list"	markupView="lexicon" message="" showWhenSingleIcon="true">
 
                 <portlet:renderURL var="editInfoURL">
-                    <portlet:param name="mvcPath" value="/info_order/edit.jsp"/>
+                    <portlet:param name="jspPage" value="/info_order/edit.jsp"/>
                     <portlet:param name="OrderInfoId" value="<%=String.valueOf(info.getId())%>"/>
                 </portlet:renderURL>
                 <liferay-ui:icon icon="pencil" markupView="lexicon" message="action.edit" url="${editInfoURL}"/>
                 <portlet:actionURL name="deleteRecInfo" var="delInfoURL">
-                    <portlet:param name="mvcPath" value="/info_order/view.jsp"/>
+                    <portlet:param name="jspPage" value="/info_order/view.jsp"/>
                     <portlet:param name="orderId" value="<%=String.valueOf(orderId)%>"/>
                     <portlet:param name="OrderInfoId" value="<%=String.valueOf(info.getId())%>"/>
                 </portlet:actionURL>
@@ -61,7 +61,7 @@
 </liferay-ui:search-container>
 
 <portlet:renderURL var="viewURL">
-    <portlet:param name="mvcPath" value="/view.jsp"/>
+    <portlet:param name="jspPage" value="/view.jsp"/>
 </portlet:renderURL>
 
 <aui:button-row>

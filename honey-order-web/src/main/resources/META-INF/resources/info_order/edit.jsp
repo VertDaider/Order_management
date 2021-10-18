@@ -16,7 +16,7 @@
 
 <portlet:actionURL name="editInfo" var="editInfoURL">
     <portlet:param name="orderInfoId" value="<%=String.valueOf(orderInfoId)%>"/>
-    <portlet:param name="mvcPath" value="/info_order/view.jsp"/>
+    <portlet:param name="jspPage" value="/info_order/view.jsp"/>
     <portlet:param name="orderId" value="<%=String.valueOf(orderInfo.getOrderid())%>"/>
 </portlet:actionURL>
 
@@ -54,7 +54,7 @@
     </aui:fieldset>
 
     <portlet:renderURL var="viewURL">
-        <portlet:param name="mvcPath" value="/info_order/view.jsp"/>
+        <portlet:param name="jspPage" value="/info_order/view.jsp"/>
         <portlet:param name="orderId" value="<%=String.valueOf(orderInfo.getOrderid())%>"/>
     </portlet:renderURL>
 

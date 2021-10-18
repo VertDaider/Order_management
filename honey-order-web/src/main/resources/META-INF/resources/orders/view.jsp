@@ -23,7 +23,7 @@
 %>
 
 <portlet:renderURL var="addOrder">
-    <portlet:param name="mvcPath" value="/orders/order_add.jsp"/>
+    <portlet:param name="jspPage" value="/orders/order_add.jsp"/>
 </portlet:renderURL>
 
 <aui:button-row>
@@ -57,14 +57,14 @@
                                   showWhenSingleIcon="true">
 
                 <portlet:renderURL var="infoOrderURL">
-                    <portlet:param name="mvcPath" value="/info_order/view.jsp"/>
+                    <portlet:param name="jspPage" value="/info_order/view.jsp"/>
                     <portlet:param name="orderId" value="<%=String.valueOf(order.getId())%>"/>
                 </portlet:renderURL>
                 <liferay-ui:icon icon="info-panel-closed" markupView="lexicon" message="action.info"
                                  url="${infoOrderURL}"/>
 
                 <portlet:renderURL var="editStatusURL">
-                    <portlet:param name="mvcPath" value="/orders/change_status.jsp"/>
+                    <portlet:param name="jspPage" value="/orders/change_status.jsp"/>
                     <portlet:param name="tab" value="tabOrders"/>
                     <portlet:param name="orderId" value="<%=String.valueOf(order.getId())%>"/>
                 </portlet:renderURL>
@@ -72,13 +72,13 @@
                                  url="${editStatusURL}"/>
 
                 <portlet:renderURL var="editOrderURL">
-                    <portlet:param name="mvcPath" value="/orders/edit.jsp"/>
+                    <portlet:param name="jspPage" value="/orders/edit.jsp"/>
                     <portlet:param name="orderId" value="<%=String.valueOf(order.getId())%>"/>
                 </portlet:renderURL>
                 <liferay-ui:icon icon="pencil" markupView="lexicon" message="action.edit" url="${editOrderURL}"/>
 
                 <portlet:actionURL name="deleteOrder" var="delOrderURL">
-                    <portlet:param name="mvcPath" value="/view.jsp"/>
+                    <portlet:param name="jspPage" value="/view.jsp"/>
                     <portlet:param name="tab" value="tabOrders"/>
                     <portlet:param name="orderId" value="<%=String.valueOf(order.getId())%>"/>
                 </portlet:actionURL>

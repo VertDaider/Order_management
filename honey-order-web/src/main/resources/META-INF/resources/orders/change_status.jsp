@@ -26,7 +26,7 @@
         </aui:select>
 
     <portlet:renderURL var="viewURL">
-        <portlet:param name="mvcPath" value="/view.jsp"/>
+        <portlet:param name="jspPage" value="/view.jsp"/>
         <portlet:param name="tab" value="tabOrders"/>
     </portlet:renderURL>
 

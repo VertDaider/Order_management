@@ -3,7 +3,6 @@ package com.serious.portlet;
 import com.liferay.counter.kernel.service.CounterLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
-import com.liferay.portal.kernel.log.LogFactory;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextFactory;
@@ -34,8 +33,9 @@ import java.util.Date;
         property = {
                 "com.liferay.portlet.display-category=category.sample",
                 "com.liferay.portlet.header-portlet-css=/css/main.css",
-                "com.liferay.portlet.instanceable=true",
+                "com.liferay.portlet.instanceable=false",
                 "javax.portlet.display-name=apporder",
+                "javax.portlet.automaticResourceDispatching=true",
                 "javax.portlet.init-param.template-path=/",
                 "javax.portlet.init-param.view-template=/view.jsp",
                 "javax.portlet.name=" + apporderPortletKeys.MANAGERORDERS,
@@ -163,13 +163,13 @@ public class AppOrderPortlet extends MVCPortlet {
 
     @Override
     public void serveResource(ResourceRequest request, ResourceResponse response) throws IOException, PortletException {
-        super.serveResource(request, response);
-        // TODO: 17.10.2021 разобраться с serveResource
         String resourceId = GetterUtil.getString(request.getResourceID());
+
         if (resourceId.equals("inputCountTypes")) {
             int count = ParamUtil.getInteger(request, "countTypes");
             request.setAttribute("countTypes", count);
             request.setAttribute("showQ", false);
         }
+        super.serveResource(request, response);
     }
 }

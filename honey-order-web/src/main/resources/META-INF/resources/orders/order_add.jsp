@@ -5,7 +5,6 @@
 <%@ page import="com.liferay.portal.kernel.util.ParamUtil" %>
 <%@ page import="com.liferay.portal.kernel.log.Log" %>
 <%@ page import="com.liferay.portal.kernel.log.LogFactoryUtil" %>
-<%@ page import="com.serious.portlet.AppOrderPortlet" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 
 <%@ include file="/init.jsp" %>
@@ -15,7 +14,7 @@
     Order order = null;
     boolean showQuestion = ParamUtil.getBoolean(request, "showQ", true);
     int COUNT_TYPES = ParamUtil.getInteger(request, "countTypes");
-    if (COUNT_TYPES == 0) {
+    if (COUNT_TYPES <= 0) {
         COUNT_TYPES = 1;
     }
 %>
@@ -24,7 +23,7 @@
     if (showQuestion) {
 %>
 <portlet:resourceURL id="inputCountTypes" var="enterCountTypes"/>
-<aui:form action="${enterCountTypes}" name="fmm">
+<aui:form action="<%=enterCountTypes%>" name="fmm">
 
     <aui:input name="countTypes" label="Сколько будет сортов мёда?" type="number" cssClass="add">
         <aui:validator name="required" errorMessage="errorInputMessageDigit"/>
@@ -89,7 +88,7 @@
     </aui:fieldset-group>
 
     <portlet:renderURL var="viewURL">
-        <portlet:param name="mvcPath" value="/view.jsp"/>
+        <portlet:param name="jspPage" value="/view.jsp"/>
     </portlet:renderURL>
 
     <aui:button-row>

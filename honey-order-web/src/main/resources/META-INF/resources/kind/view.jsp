@@ -9,7 +9,7 @@
     List<Honey> honeyList = HoneyLocalServiceUtil.getHoneys(0, HoneyLocalServiceUtil.getHoneysCount());
 %>
 <portlet:renderURL var="addKind">
-    <portlet:param name="mvcPath" value="/kind/kind_add.jsp"/>
+    <portlet:param name="jspPage" value="/kind/kind_add.jsp"/>
 </portlet:renderURL>
 
 <aui:button-row>
@@ -34,18 +34,18 @@
         <liferay-ui:search-container-column-text>
             <liferay-ui:icon-menu direction="left-side" icon="list"	markupView="lexicon" message="" showWhenSingleIcon="true">
                 <portlet:actionURL name="editStockHoney" var="editStockURL">
-                    <portlet:param name="mvcPath" value="/view.jsp"/>
+                    <portlet:param name="jspPage" value="/view.jsp"/>
                     <portlet:param name="tab" value="tabKind"/>
                     <portlet:param name="honeyId" value="<%=String.valueOf(honey.getId())%>"/>
                 </portlet:actionURL>
                 <liferay-ui:icon icon="redo" markupView="lexicon" message="action.change.stock" url="${editStockURL}"/>
                 <portlet:renderURL var="editKindURL">
-                    <portlet:param name="mvcPath" value="/kind/edit.jsp"/>
+                    <portlet:param name="jspPage" value="/kind/edit.jsp"/>
                     <portlet:param name="honeyId" value="<%=String.valueOf(honey.getId())%>"/>
                 </portlet:renderURL>
                 <liferay-ui:icon icon="pencil" markupView="lexicon" message="action.edit" url="${editKindURL}"/>
                 <portlet:actionURL name="deleteRecHoney" var="delStockURL">
-                    <portlet:param name="mvcPath" value="/view.jsp"/>
+                    <portlet:param name="jspPage" value="/view.jsp"/>
                     <portlet:param name="tab" value="tabKind"/>
                     <portlet:param name="honeyId" value="<%=String.valueOf(honey.getId())%>"/>
                 </portlet:actionURL>
