@@ -63,12 +63,41 @@
 <portlet:renderURL var="viewURL">
     <portlet:param name="jspPage" value="/jsp/view.jsp"/>
 </portlet:renderURL>
-<portlet:renderURL var="editInfoURL">
-    <portlet:param name="jspPage" value="/jsp/info_order/add.jsp"/>
+
+<portlet:actionURL name="addType" var="addTypeURL">
+    <portlet:param name="jspPage" value="/jsp/info_order/view.jsp"/>
     <portlet:param name="OrderId" value="<%=String.valueOf(orderId)%>"/>
-</portlet:renderURL>
+</portlet:actionURL>
+<aui:form action="${addTypeURL}">
+    <aui:fieldset>
+        <aui:row>
+            <aui:col width="50" >
+                <aui:select label="Сорт" name="type" cssClass="add">
+                    <%
+                        List<Honey> list = HoneyLocalServiceUtil.getHoneys(0, HoneyLocalServiceUtil.getHoneysCount());
+                        for (Honey h : list) {
+                            if (h.isStock()) {
+                    %>
+                    <aui:option value="<%=h.getId()%>">
+                        <%=h.getType()%>
+                    </aui:option>
+                    <%
+                            }
+                        }
+                    %>
+                </aui:select>
+            </aui:col>
+            <aui:col width="50">
+                <aui:input label="Количество" name="amount" type="number" style="width: 100px;"/>
+            </aui:col>
+        </aui:row>
+    </aui:fieldset>
+    <aui:button-row>
+        <aui:button type="submit" value="action.add"/>
+    </aui:button-row>
+</aui:form>
 
 <aui:button-row>
-    <aui:button value="action.add" href="${addTypeURL}"/>
     <aui:button type="cancel" value="Назад" href="${viewURL}"/>
 </aui:button-row>
+
