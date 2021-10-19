@@ -122,6 +122,8 @@ public class AppOrderPortlet extends MVCPortlet {
 
         int types = ParamUtil.getInteger(request, "type");
         int counts = ParamUtil.getInteger(request, "amount");
+        if (counts <= 0)
+            return;
 
         orderInfo.setAmount(counts);
         orderInfo.setType(types);
@@ -133,6 +135,8 @@ public class AppOrderPortlet extends MVCPortlet {
 
         int types = ParamUtil.getInteger(request, "type");
         int counts = ParamUtil.getInteger(request, "amount");
+        if (counts <= 0)
+            return;
 
         long orderInfoId = CounterLocalServiceUtil.increment();
         OrderInfo orderInfo = OrderInfoLocalServiceUtil.createOrderInfo(orderInfoId);

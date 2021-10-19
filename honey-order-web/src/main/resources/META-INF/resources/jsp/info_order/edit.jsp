@@ -23,8 +23,8 @@
 
     <aui:fieldset>
         <aui:row>
-            <aui:col width="50" >
-                <aui:select label="Сорт" name="type" cssClass="add">
+            <aui:col width="20" >
+                <aui:select label="Сорт" name="type" cssClass="addType">
                     <%
                         List<Honey> list = HoneyLocalServiceUtil.getHoneys(0, HoneyLocalServiceUtil.getHoneysCount());
                         for (Honey h : list) {
