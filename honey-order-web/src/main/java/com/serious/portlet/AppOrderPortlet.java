@@ -35,12 +35,13 @@ import java.util.Date;
                 "com.liferay.portlet.header-portlet-css=/css/main.css",
                 "com.liferay.portlet.instanceable=false",
                 "javax.portlet.display-name=apporder",
-                "javax.portlet.automaticResourceDispatching=true",
                 "javax.portlet.init-param.template-path=/",
-                "javax.portlet.init-param.view-template=/view.jsp",
+                "javax.portlet.automaticResourceDispatching=true",
+                "javax.portlet.init-param.view-template=/jsp/view.jsp",
                 "javax.portlet.name=" + apporderPortletKeys.MANAGERORDERS,
                 "javax.portlet.resource-bundle=content.Language",
-                "javax.portlet.security-role-ref=power-user,user"
+                "javax.portlet.security-role-ref=power-user,user",
+                "javax.portlet.version=3.0"
         },
         service = Portlet.class
 )
@@ -98,9 +99,6 @@ public class AppOrderPortlet extends MVCPortlet {
         String address = ParamUtil.getString(request, "address");
         String customer = ParamUtil.getString(request, "customer");
 
-        int[] types = ParamUtil.getIntegerValues(request, "type");
-        int[] counts = ParamUtil.getIntegerValues(request, "amount");
-
         long orderId = CounterLocalServiceUtil.increment();
         Order order = OrderLocalServiceUtil.createOrder(orderId);
         order.setAddress(address);
@@ -108,20 +106,6 @@ public class AppOrderPortlet extends MVCPortlet {
         order.setDateOrder(new Date());
         order.setStatus(1);
         OrderLocalServiceUtil.updateOrder(order);
-
-        long orderInfoId;
-        OrderInfo orderInfo;
-        if (types.length > 0) {
-            for (int i = 0; i < types.length; i++) {
-                orderInfoId = CounterLocalServiceUtil.increment(OrderInfo.class.getName());
-                orderInfo = OrderInfoLocalServiceUtil.createOrderInfo(orderInfoId);
-
-                orderInfo.setAmount(counts[i]);
-                orderInfo.setOrderid(orderId);
-                orderInfo.setType(orderId);
-                OrderInfoLocalServiceUtil.updateOrderInfo(orderInfo);
-            }
-        }
     }
 
     public void editStatusOrder(ActionRequest request, ActionResponse response) throws PortalException {
@@ -135,25 +119,32 @@ public class AppOrderPortlet extends MVCPortlet {
     public void editInfo(ActionRequest request, ActionResponse response) throws PortalException {
         long orderInfoId = ParamUtil.getLong(request, "orderInfoId");
         OrderInfo orderInfo = OrderInfoLocalServiceUtil.getOrderInfo(orderInfoId);
-        long orderId = orderInfo.getOrderid();
 
-        int[] types = ParamUtil.getIntegerValues(request, "type");
-        int[] counts = ParamUtil.getIntegerValues(request, "amount");
+        int types = ParamUtil.getInteger(request, "type");
+        int counts = ParamUtil.getInteger(request, "amount");
+        if (counts <= 0)
+            return;
 
-        orderInfo.setAmount(counts[0]);
-        orderInfo.setType(types[0]);
+        orderInfo.setAmount(counts);
+        orderInfo.setType(types);
         OrderInfoLocalServiceUtil.updateOrderInfo(orderInfo);
-        if (types.length > 1) {
-            for (int i = 1; i < types.length; i++) {
-                orderInfoId = CounterLocalServiceUtil.increment(OrderInfo.class.getName());
-                orderInfo = OrderInfoLocalServiceUtil.createOrderInfo(orderInfoId);
+    }
 
-                orderInfo.setAmount(counts[i]);
-                orderInfo.setOrderid(orderId);
-                orderInfo.setType(orderId);
-                OrderInfoLocalServiceUtil.updateOrderInfo(orderInfo);
-            }
-        }
+    public void addType(ActionRequest request, ActionResponse response) throws PortalException {
+        long orderId = ParamUtil.getLong(request, "orderId");
+
+        int types = ParamUtil.getInteger(request, "type");
+        int counts = ParamUtil.getInteger(request, "amount");
+        if (counts <= 0)
+            return;
+
+        long orderInfoId = CounterLocalServiceUtil.increment();
+        OrderInfo orderInfo = OrderInfoLocalServiceUtil.createOrderInfo(orderInfoId);
+
+        orderInfo.setType(types);
+        orderInfo.setAmount(counts);
+        orderInfo.setOrderid(orderId);
+        OrderInfoLocalServiceUtil.updateOrderInfo(orderInfo);
     }
 
     public void deleteRecInfo(ActionRequest request, ActionResponse response) throws PortalException, IOException {
@@ -161,15 +152,4 @@ public class AppOrderPortlet extends MVCPortlet {
         OrderInfoLocalServiceUtil.deleteOrderInfo(orderInfoId);
     }
 
-    @Override
-    public void serveResource(ResourceRequest request, ResourceResponse response) throws IOException, PortletException {
-        String resourceId = GetterUtil.getString(request.getResourceID());
-
-        if (resourceId.equals("inputCountTypes")) {
-            int count = ParamUtil.getInteger(request, "countTypes");
-            request.setAttribute("countTypes", count);
-            request.setAttribute("showQ", false);
-        }
-        super.serveResource(request, response);
-    }
 }

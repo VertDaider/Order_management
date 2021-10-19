@@ -1,5 +1,5 @@
 <%@ page import="com.serious.orders.model.Honey" %>
-<%@ include file="/init.jsp" %>
+<%@ include file="/META-INF/resources/jsp/init.jsp" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 
 <%
@@ -7,7 +7,7 @@
 %>
 
 <portlet:renderURL var="viewURL">
-    <portlet:param name="jspPage" value="/view.jsp"/>
+    <portlet:param name="jspPage" value="/jsp/view.jsp"/>
     <portlet:param name="tab" value="tabKind"/>
 </portlet:renderURL>
 

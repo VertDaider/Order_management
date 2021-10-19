@@ -12,6 +12,16 @@ h4 {
     width: 500px;
 }
 
+.buttonDown {
+    position: center;
+    top: 27px;
+    right: 60px;
+}
+
+.addType {
+    width: 200px;
+}
+
 .datePicker {
     width: 150px;
     margin-right: 20px;

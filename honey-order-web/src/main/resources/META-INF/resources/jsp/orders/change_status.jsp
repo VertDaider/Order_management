@@ -3,7 +3,7 @@
 <%@ page import="com.serious.orders.model.Order" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 
-<%@ include file="/init.jsp" %>
+<%@ include file="/META-INF/resources/jsp/init.jsp" %>
 
 <%
     long orderId = ParamUtil.getLong(request, "orderId");
@@ -26,7 +26,7 @@
         </aui:select>
 
     <portlet:renderURL var="viewURL">
-        <portlet:param name="jspPage" value="/view.jsp"/>
+        <portlet:param name="jspPage" value="/jsp/view.jsp"/>
         <portlet:param name="tab" value="tabOrders"/>
     </portlet:renderURL>
 
